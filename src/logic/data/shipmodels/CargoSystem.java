@@ -1,5 +1,9 @@
 package logic.data.shipmodels;
 
+import logic.data.exceptions.InsufficientResourcesException;
+import logic.data.exceptions.MaximumCapacityReachedException;
+import logic.data.exceptions.SystemUnavailableException;
+
 import java.util.concurrent.ThreadLocalRandom;
 
 public class CargoSystem implements ShipSystem {
@@ -47,33 +51,33 @@ public class CargoSystem implements ShipSystem {
         return greenResourceAmount;
     }
 
-    public void payBlackResource(int amount) {
-        if (blackResourceAmount - amount < 0) return; //TODO: exception if insufficient amount of resources
+    public void payBlackResource(int amount) throws InsufficientResourcesException {
+        if (blackResourceAmount - amount < 0) throw new InsufficientResourcesException();
         blackResourceAmount -= amount;
     }
 
-    public void payRedResource(int amount) {
-        if (redResourceAmount - amount < 0) return; //TODO: exception if insufficient amount of resources
+    public void payRedResource(int amount) throws InsufficientResourcesException  {
+        if (redResourceAmount - amount < 0) throw new InsufficientResourcesException();
         redResourceAmount -= amount;
     }
 
-    public void payBlueResource(int amount) {
-        if (blueResourceAmount - amount < 0) return; //TODO: exception if insufficient amount of resources
+    public void payBlueResource(int amount) throws InsufficientResourcesException  {
+        if (blueResourceAmount - amount < 0) throw new InsufficientResourcesException();
         blueResourceAmount -= amount;
     }
 
-    public void payGreenResource(int amount) {
-        if (greenResourceAmount - amount < 0) return; //TODO: exception if insufficient amount of resources
+    public void payGreenResource(int amount) throws InsufficientResourcesException  {
+        if (greenResourceAmount - amount < 0) throw new InsufficientResourcesException();
         greenResourceAmount -= amount;
     }
 
-    public void payAllResources (int amount) {
+    public void payAllResources (int amount) throws InsufficientResourcesException  {
         if (
                 greenResourceAmount - amount < 0 ||
                 blueResourceAmount - amount < 0 ||
                 redResourceAmount - amount < 0 ||
                 blackResourceAmount - amount < 0
-        ) return; //TODO: exception if insufficient amount of resources
+        ) throw new InsufficientResourcesException();
         greenResourceAmount -= amount;
         blueResourceAmount -= amount;
         redResourceAmount -= amount;
@@ -143,11 +147,10 @@ public class CargoSystem implements ShipSystem {
     }
 
 
-    public void upgradeCargoSystem() {
-        if(!isAvailable) return;
-        if (isMilitary && currentMaxResourceAmount == 12) return;
-        if (!isMilitary && currentMaxResourceAmount == 24) return;
-        //TODO: add proper exceptions if requirements not met
+    public void upgradeCargoSystem() throws SystemUnavailableException, MaximumCapacityReachedException {
+        if(!isAvailable) throw new SystemUnavailableException();
+        if (isMilitary && currentMaxResourceAmount == 12) throw new MaximumCapacityReachedException();
+        if (!isMilitary && currentMaxResourceAmount == 24) throw new MaximumCapacityReachedException();
 
         currentMaxResourceAmount *= 2;
     }

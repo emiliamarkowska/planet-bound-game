@@ -2,6 +2,7 @@ package logic.states;
 
 import logic.Dice;
 import logic.GameData;
+import logic.data.exceptions.NoFuelException;
 import logic.data.shipmodels.ResourceType;
 
 public class WaitingForReturnConfirmationState extends StateAdapter {
@@ -14,7 +15,12 @@ public class WaitingForReturnConfirmationState extends StateAdapter {
 
     @Override
     public IState acceptReturn() {
-        getGameData().getShip().getFuelSystem().spendFuel(1);
+        try {
+            getGameData().getShip().getFuelSystem().spendFuel(1);
+        } catch (NoFuelException e) {
+            getGameData().getLogRecorder().addLog(e.getMessage());
+            return new GameLostState(getGameData());
+        }
         if(!getGameData().getExLogic().isResourceInDrone()) return new SpaceTravelState(getGameData());
 
         if(getGameData().getExLogic().getResource().getResourceType() != ResourceType.PINK){

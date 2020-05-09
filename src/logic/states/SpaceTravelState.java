@@ -3,6 +3,8 @@ package logic.states;
 import logic.Dice;
 import logic.GameData;
 import logic.data.Event;
+import logic.data.exceptions.GameException;
+import logic.data.exceptions.NoFuelException;
 import logic.data.shipmodels.Ship;
 
 public class SpaceTravelState extends StateAdapter {
@@ -27,11 +29,16 @@ public class SpaceTravelState extends StateAdapter {
 
     @Override
     public IState goToNextRegion() {
-        travelCost();
         if (getGameData().getShip().getAmountOfArtifacts() >= 5) return new GameWonState(getGameData());
-
         Event event = new Event(getGameData().getLogRecorder());
-        event.runSpecificEvent(getGameData().getShip());
+        try {
+            travelCost();
+            event.runSpecificEvent(getGameData().getShip());
+        } catch (NoFuelException e) {
+            getGameData().getLogRecorder().addLog("You have no fuel left. Game over.");
+            return new GameLostState(getGameData());
+        }
+
 
         if (getGameData().getShip().getFuelSystem().getFuelAmount() == 0 || getGameData().getShip().getCrewAmount() == 0) return new GameLostState(getGameData());
 
@@ -46,17 +53,29 @@ public class SpaceTravelState extends StateAdapter {
 
         switch(type) {
             case "ammo":
-                getGameData().getShip().getResourceConverter().produceAmmo(amount);
+                try {
+                    getGameData().getShip().getResourceConverter().produceAmmo(amount);
+                } catch (GameException e) {
+                    getGameData().getLogRecorder().addLog(e.getMessage());
+                }
             case "fuel":
-                getGameData().getShip().getResourceConverter().produceFuel(amount);
+                try {
+                    getGameData().getShip().getResourceConverter().produceFuel(amount);
+                } catch (GameException e) {
+                    getGameData().getLogRecorder().addLog(e.getMessage());
+                }
             case "shield":
-                getGameData().getShip().getResourceConverter().produceShield(amount);
+                try {
+                    getGameData().getShip().getResourceConverter().produceShield(amount);
+                } catch (GameException e) {
+                    getGameData().getLogRecorder().addLog(e.getMessage());
+                }
         }
 
         return this;
     }
 
-    private void travelCost(){
+    private void travelCost() throws NoFuelException {
         int probability = Dice.throwd8();
         if(probability == 1) {
             getGameData().getLogRecorder().addLog("You have entered wormhole.");

@@ -1,5 +1,7 @@
 package logic.data.shipmodels;
 
+import logic.data.exceptions.NoFuelException;
+
 public class FuelSystem implements ShipSystem {
     private boolean isAvailable;
     private boolean isMilitary;
@@ -15,9 +17,9 @@ public class FuelSystem implements ShipSystem {
         fuelAmount = maxFuelAmount;
     }
 
-    public void spendFuel(int amount) {
+    public void spendFuel(int amount) throws NoFuelException {
         fuelAmount -= amount;
-        if (fuelAmount <= 0) return; //TODO: exception endgame
+        if (fuelAmount <= 0) throw new NoFuelException();
     }
 
     public int getFuelAmount() {

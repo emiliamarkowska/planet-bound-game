@@ -64,15 +64,10 @@ public class Ship {
             case 3:
                 getShieldSystem().setAvailable(false);
         }
-        if (crewAmount == 0) endGame();
     }
 
     public void hireOneCrewMember() {
         if (crewAmount < 6) crewAmount++;
-    }
-
-    public void endGame() {
-        //TODO: implement endgame
     }
 
     public Drone getDrone() {

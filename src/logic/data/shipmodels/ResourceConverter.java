@@ -1,6 +1,8 @@
 package logic.data.shipmodels;
 
 import logic.data.Resource;
+import logic.data.exceptions.InsufficientResourcesException;
+import logic.data.exceptions.SystemUnavailableException;
 
 public class ResourceConverter {
 
@@ -10,10 +12,9 @@ public class ResourceConverter {
         this.ship = ship;
     }
 
-    public void produceShield(int amount){
-        //TODO exception
-        if(!ship.getCargoSystem().isAvailable()) return;
-        if(ship.getCargoSystem().getBlackResourceAmount() < amount || ship.getCargoSystem().getGreenResourceAmount() < amount ||ship. getCargoSystem().getBlueResourceAmount() < amount) return;
+    public void produceShield(int amount) throws SystemUnavailableException, InsufficientResourcesException{
+        if(!ship.getCargoSystem().isAvailable()) throw new SystemUnavailableException();
+        if(ship.getCargoSystem().getBlackResourceAmount() < amount || ship.getCargoSystem().getGreenResourceAmount() < amount ||ship. getCargoSystem().getBlueResourceAmount() < amount) throw new InsufficientResourcesException();
         if(ship.getShieldSystem().getShieldsAmount() + amount <= ship.getShieldSystem().getMaxShieldsAmount()){
             ship.getCargoSystem().payBlackResource(amount);
             ship.getCargoSystem().payGreenResource(amount);
@@ -22,10 +23,9 @@ public class ResourceConverter {
         }
     }
 
-    public void produceAmmo(int amount){
-        //TODO exception
-        if(ship.getCargoSystem().isAvailable()) return;
-        if(ship.getCargoSystem().getBlackResourceAmount() < amount || ship.getCargoSystem().getBlueResourceAmount() < amount) return;
+    public void produceAmmo(int amount) throws SystemUnavailableException, InsufficientResourcesException{
+        if(ship.getCargoSystem().isAvailable()) throw new SystemUnavailableException();
+        if(ship.getCargoSystem().getBlackResourceAmount() < amount || ship.getCargoSystem().getBlueResourceAmount() < amount) throw new InsufficientResourcesException();
         if(ship.getWeaponSystem().getWeapons() + amount <= ship.getWeaponSystem().getMaxWeapons()){
             ship.getCargoSystem().payBlackResource(amount);
             ship.getCargoSystem().payBlueResource(amount);
@@ -33,10 +33,9 @@ public class ResourceConverter {
         }
     }
 
-    public void produceFuel( int amount){
-        //TODO exception
-        if(!ship.getCargoSystem().isAvailable()) return;
-        if(ship.getCargoSystem().getBlackResourceAmount() < amount || ship.getCargoSystem().getRedResourceAmount() < amount || ship.getCargoSystem().getGreenResourceAmount() < amount ) return;
+    public void produceFuel( int amount) throws SystemUnavailableException, InsufficientResourcesException{
+        if(!ship.getCargoSystem().isAvailable()) throw new SystemUnavailableException();
+        if(ship.getCargoSystem().getBlackResourceAmount() < amount || ship.getCargoSystem().getRedResourceAmount() < amount || ship.getCargoSystem().getGreenResourceAmount() < amount ) throw new InsufficientResourcesException();
         if(ship.getFuelSystem().getFuelAmount() + amount <= ship.getFuelSystem().getMaxFuelAmount()){
             ship.getCargoSystem().payBlackResource(amount);
             ship.getCargoSystem().payRedResource(amount);

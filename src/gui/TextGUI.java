@@ -30,6 +30,7 @@ public class TextGUI {
     }
 
     private void shipSelectionGUI(){
+        printLastLogs();
         Scanner s = new Scanner(System.in);
         System.out.println("Welcome to Planet Bound!\n");
         System.out.println("Select type of your ship:");
@@ -100,6 +101,7 @@ public class TextGUI {
         }
     }
     private void atPlanetGUI(){
+        printLastLogs();
         Scanner s = new Scanner(System.in);
         System.out.println("You are at the planet surface.");
         System.out.println("Planet has resource type " + gl.getGameData().getExLogic().getResource().getResourceType() + "\n");
@@ -140,6 +142,7 @@ public class TextGUI {
     }
 
     private void atSpaceStationGUI(){
+        printLastLogs();
         Scanner s = new Scanner(System.in);
         showStatus();
         System.out.println("\n");
@@ -182,6 +185,7 @@ public class TextGUI {
         }
     }
     private void waitingForReturnConfirmationGUI(){
+        printLastLogs();
         System.out.println("Are you sure you want to return?");
         if (gl.getGameData().getExLogic().isResourceInDrone())
             System.out.println("You have gathered resources\n");
@@ -206,10 +210,12 @@ public class TextGUI {
         }
     }
     private void gameWonGUI(){
+        printLastLogs();
         System.out.println("You have won the game!:\n");
         gameOverGUI();
     }
     private void gameLostGUI(){
+        printLastLogs();
         System.out.println("You have lost the game.:\n");
         gameOverGUI();
     }

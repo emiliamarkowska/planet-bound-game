@@ -1,6 +1,7 @@
 package logic.data;
 
 import logic.Dice;
+import logic.data.exceptions.NoFuelException;
 import logic.data.shipmodels.ResourceType;
 import logic.data.shipmodels.Ship;
 
@@ -21,7 +22,7 @@ public class Event {
         this.logRecorder = logRecorder;
     }
 
-    public void runSpecificEvent(Ship ship) {
+    public void runSpecificEvent(Ship ship) throws NoFuelException {
         switch(this.eventType) {
 
             case CREW_DEATH:

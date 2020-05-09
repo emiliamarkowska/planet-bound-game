@@ -2,6 +2,8 @@ package logic.states;
 
 import logic.GameData;
 import logic.data.Resource;
+import logic.data.exceptions.GameException;
+import logic.data.exceptions.NoOfficerException;
 import logic.data.planetmodels.SpaceStation;
 
 public class AtSpaceStationState extends StateAdapter {
@@ -20,37 +22,61 @@ public class AtSpaceStationState extends StateAdapter {
 
     @Override
     public IState upgradeCargo() {
-        spaceStation.upgradeCargo();
+        try {
+            spaceStation.upgradeCargo();
+        } catch (GameException e) {
+            getGameData().getLogRecorder().addLog(e.getMessage());
+        }
         return goToSpaceTravel();
     }
 
     @Override
     public IState convertResource(Resource from, Resource to) {
-        spaceStation.convertResource(from, to);
+        try {
+            spaceStation.convertResource(from, to);
+        } catch (GameException e) {
+            getGameData().getLogRecorder().addLog(e.getMessage());
+        }
         return goToSpaceTravel();
     }
 
     @Override
     public IState hireCrew() {
-        spaceStation.hireCrew();
+        try {
+            spaceStation.hireCrew();
+        } catch (GameException e) {
+            getGameData().getLogRecorder().addLog(e.getMessage());
+        }
         return goToSpaceTravel();
     }
 
     @Override
     public IState upgradeWeaponSystem() {
-        spaceStation.upgradeWeaponSystem();
+        try {
+            spaceStation.upgradeWeaponSystem();
+        } catch (GameException e) {
+            getGameData().getLogRecorder().addLog(e.getMessage());
+        }
         return goToSpaceTravel();
     }
 
     @Override
     public IState replenishArmor() {
-        spaceStation.replenishArmor();
+        try {
+            spaceStation.replenishArmor();
+        } catch (GameException e) {
+            getGameData().getLogRecorder().addLog(e.getMessage());
+        }
         return goToSpaceTravel();
     }
 
     @Override
     public IState buyNewDrone() {
-        spaceStation.buyNewDrone();
+        try {
+            spaceStation.buyNewDrone();
+        } catch (GameException e) {
+            getGameData().getLogRecorder().addLog(e.getMessage());
+        }
         return goToSpaceTravel();
     }
 }
