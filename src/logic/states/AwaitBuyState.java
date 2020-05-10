@@ -1,6 +1,10 @@
 package logic.states;
 
 import logic.PlanetBoundData;
+import logic.data.exceptions.CrewFullException;
+import logic.data.exceptions.NotEnoughResourcesException;
+import logic.data.exceptions.SystemDisabledException;
+import logic.data.exceptions.UpgradeMaxException;
 import logic.data.movables.Resource;
 import logic.data.planetmodels.SpaceStation;
 import logic.data.shipmodels.ResourceType;
@@ -18,25 +22,25 @@ public class AwaitBuyState extends StateAdapter {
     }
 
     @Override
-    public IState upgradeCargo() {
+    public IState upgradeCargo() throws SystemDisabledException, UpgradeMaxException, NotEnoughResourcesException {
         spaceStation.upgradeCargo();
         return this;
     }
 
     @Override
-    public IState exchangeResource(ResourceType from, ResourceType to) {
+    public IState exchangeResource(ResourceType from, ResourceType to) throws NotEnoughResourcesException {
         spaceStation.convertResource(from, to);
         return this;
     }
 
     @Override
-    public IState addCrewMember() {
+    public IState addCrewMember() throws NotEnoughResourcesException, CrewFullException {
         spaceStation.hireCrew();
         return this;
     }
 
     @Override
-    public IState upgradeWeapon() {
+    public IState upgradeWeapon() throws NotEnoughResourcesException, UpgradeMaxException {
         spaceStation.upgradeWeaponSystem();
         return this;
     }
@@ -54,7 +58,7 @@ public class AwaitBuyState extends StateAdapter {
     }
 
     @Override
-    public IState convertToShipResources(UsableResourceType type, int amount) {
+    public IState convertToShipResources(UsableResourceType type, int amount) throws NotEnoughResourcesException {
         spaceStation.convertToShipResources(type, amount);
         return this;
     }

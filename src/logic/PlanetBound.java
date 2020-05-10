@@ -1,5 +1,8 @@
 package logic;
 
+import logic.data.exceptions.NotEnoughResourcesException;
+import logic.data.exceptions.SystemDisabledException;
+import logic.data.exceptions.UpgradeMaxException;
 import logic.data.movables.Resource;
 import logic.data.shipmodels.ResourceType;
 import logic.data.shipmodels.UsableResourceType;
@@ -52,7 +55,15 @@ public class PlanetBound {
     //AVAILABLE FROM AwaitBuyState
 
     public void upgradeCargo() {
-        this.setState(this.state.upgradeCargo());
+        try{
+            this.setState(this.state.upgradeCargo());
+        } catch (UpgradeMaxException e) {
+            e.printStackTrace();
+        } catch (NotEnoughResourcesException e) {
+            e.printStackTrace();
+        } catch (SystemDisabledException e) {
+            e.printStackTrace();
+        }
     }
 
     public void exchangeResource(ResourceType from, ResourceType to) {
