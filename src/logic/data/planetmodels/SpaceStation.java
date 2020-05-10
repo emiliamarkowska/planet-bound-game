@@ -11,15 +11,16 @@ public class SpaceStation{
 
     private Ship shipOnStation;
 
+    public SpaceStation(Ship shipOnStation){
+        this.shipOnStation = shipOnStation;
+    }
+
     public void upgradeCargo() {
        if(!shipOnStation.isOfficerAvailable("CargoOfficer")) return;
        shipOnStation.getCargoSystem().payAllResources(1);
        shipOnStation.getCargoSystem().upgradeCargoSystem();
     }
 
-    public void setShipOnStation(Ship dockedShip) {
-        this.shipOnStation = dockedShip;
-    }
 
     public void convertResource(ResourceType toBeLost, ResourceType toBeGained) {
         shipOnStation.getCargoSystem().payResource(1, toBeLost);

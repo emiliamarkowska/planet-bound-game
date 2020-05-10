@@ -2,17 +2,16 @@ package logic;
 
 import logic.data.movables.Resource;
 import logic.states.IState;
-import logic.states.ShipSelectionState;
+import logic.states.AwaitShipSelectionState;
 
-public class GameLogic {
+public class PlanetBound {
 
     private IState state;
+    private PlanetBoundData planetBoundData;
 
-    private GameData gameData;
-
-    public GameLogic() {
-        gameData = new GameData();
-        state = new ShipSelectionState(gameData);
+    public PlanetBound() {
+        planetBoundData = new PlanetBoundData();
+        state = new AwaitShipSelectionState(planetBoundData);
 
     }
 
@@ -25,11 +24,11 @@ public class GameLogic {
     }
 
     public void chooseShip(boolean isMilitary) {
-        this.setState(this.state.selectShip(isMilitary));
+        this.setState(this.state.chooseShip(isMilitary));
     }
 
     public boolean isSpaceStationAvailable() {
-        return gameData.getPlanet().hasSpaceStation();
+        return planetBoundData.getPlanet().hasSpaceStation();
     }
 
     public void goToSpaceStation() {
@@ -45,19 +44,19 @@ public class GameLogic {
     }
 
     public void hireCrew() {
-        this.setState(this.state.hireCrew());
+        this.setState(this.state.addCrewMember());
     }
 
     public void upgradeWeaponSystem() {
-        this.setState(this.state.upgradeWeaponSystem());
+        this.setState(this.state.upgradeWeapon());
     }
 
     public void replenishArmor() {
-        this.setState(this.state.replenishArmor());
+        this.setState(this.state.fillAmmo());
     }
 
     public void buyNewDrone() {
-        this.setState(this.state.buyNewDrone());
+        this.setState(this.state.repairDrone());
     }
 
     public void goUp() {
@@ -85,7 +84,7 @@ public class GameLogic {
     }
 
     public void goToNextRegion() {
-        this.setState(this.state.goToNextRegion());
+        this.setState(this.state.lookForAnotherPlanet());
     }
 
     public void explorePlanet() {
@@ -109,8 +108,8 @@ public class GameLogic {
     }
 
 
-    public GameData getGameData() {
-        return gameData;
+    public PlanetBoundData getPlanetBoundData() {
+        return planetBoundData;
     }
 
 

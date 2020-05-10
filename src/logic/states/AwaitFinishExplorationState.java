@@ -1,12 +1,12 @@
 package logic.states;
 
-import logic.GameData;
+import logic.PlanetBoundData;
 
-public class AtPlanetState extends StateAdapter {
+public class AwaitFinishExplorationState extends StateAdapter {
 
     PlanetExplorationLogic logic;
 
-    public AtPlanetState(GameData gameData) {
+    public AwaitFinishExplorationState(PlanetBoundData gameData) {
         super(gameData);
 
         gameData.setExLogic(new PlanetExplorationLogic(gameData.getShip(), gameData.getPlanet().getRandomResource(), gameData.getLogRecorder()));
@@ -17,7 +17,7 @@ public class AtPlanetState extends StateAdapter {
     public IState goUp() {
         logic.moveDrone("up");
         if (logic.isDroneBackInShip()) return new WaitingForReturnConfirmationState(getGameData(), this);
-        if (logic.isDroneDestroyed()) return new SpaceTravelState(getGameData());
+        if (logic.isDroneDestroyed()) return new AwaitMoveState(getGameData());
         return this;
     }
 
@@ -25,7 +25,7 @@ public class AtPlanetState extends StateAdapter {
     public IState goDown() {
         logic.moveDrone("down");
         if (logic.isDroneBackInShip()) return new WaitingForReturnConfirmationState(getGameData(), this);
-        if (logic.isDroneDestroyed()) return new SpaceTravelState(getGameData());
+        if (logic.isDroneDestroyed()) return new AwaitMoveState(getGameData());
         return this;
     }
 
@@ -33,7 +33,7 @@ public class AtPlanetState extends StateAdapter {
     public IState goLeft() {
         logic.moveDrone("left");
         if (logic.isDroneBackInShip()) return new WaitingForReturnConfirmationState(getGameData(), this);
-        if (logic.isDroneDestroyed()) return new SpaceTravelState(getGameData());
+        if (logic.isDroneDestroyed()) return new AwaitMoveState(getGameData());
         return this;
     }
 
@@ -41,7 +41,7 @@ public class AtPlanetState extends StateAdapter {
     public IState goRight() {
         logic.moveDrone("right");
         if (logic.isDroneBackInShip()) return new WaitingForReturnConfirmationState(getGameData(), this);
-        if (logic.isDroneDestroyed()) return new SpaceTravelState(getGameData());
+        if (logic.isDroneDestroyed()) return new AwaitMoveState(getGameData());
         return this;
     }
 

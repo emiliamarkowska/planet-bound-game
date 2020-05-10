@@ -1,6 +1,6 @@
 package gui;
 
-import logic.GameLogic;
+import logic.PlanetBound;
 import logic.data.Log;
 import logic.data.movables.Resource;
 import logic.data.shipmodels.ResourceType;
@@ -10,21 +10,21 @@ import java.util.Scanner;
 
 public class TextGUI {
 
-    GameLogic gl;
+    PlanetBound gl;
     boolean exit;
     public TextGUI() {
-        gl = new GameLogic();
+        gl = new PlanetBound();
         exit = false;
     }
 
     public void run() {
         while(!exit){
-            if(gl.getState() instanceof ShipSelectionState) shipSelectionGUI();
-            else if(gl.getState() instanceof SpaceTravelState) spaceTravelGUI();
-            else if(gl.getState() instanceof AtPlanetState) atPlanetGUI();
-            else if(gl.getState() instanceof AtSpaceStationState) atSpaceStationGUI();
+            if(gl.getState() instanceof AwaitShipSelectionState) shipSelectionGUI();
+            else if(gl.getState() instanceof AwaitMoveState) spaceTravelGUI();
+            else if(gl.getState() instanceof AwaitFinishExplorationState) atPlanetGUI();
+            else if(gl.getState() instanceof AwaitBuyState) atSpaceStationGUI();
             else if(gl.getState() instanceof WaitingForReturnConfirmationState) waitingForReturnConfirmationGUI();
-            else if(gl.getState() instanceof GameWonState) gameWonGUI();
+            else if(gl.getState() instanceof GameOverState) gameWonGUI();
             else if(gl.getState() instanceof GameLostState) gameLostGUI();
         }
     }
@@ -55,15 +55,15 @@ public class TextGUI {
         printLastLogs();
         Scanner s = new Scanner(System.in);
         System.out.println("You are in space.");
-        System.out.println("Planet type " + gl.getGameData().getPlanet().getPlanetType() + " underneath you has the following resources left: " + showResources());
-        if (gl.getGameData().getPlanet().hasSpaceStation()) System.out.println("There is a space station here.");
+        System.out.println("Planet type " + gl.getPlanetBoundData().getPlanet().getPlanetType() + " underneath you has the following resources left: " + showResources());
+        if (gl.getPlanetBoundData().getPlanet().hasSpaceStation()) System.out.println("There is a space station here.");
         else System.out.println("There is no space station here.");
         showStatus();
         System.out.println("\n");
         System.out.println("1. Explore planet");
         System.out.println("2. Travel to next region");
         System.out.println("3. Produce");
-        if (gl.getGameData().getPlanet().hasSpaceStation()) System.out.println("4. Go to Space Station");
+        if (gl.getPlanetBoundData().getPlanet().hasSpaceStation()) System.out.println("4. Go to Space Station");
         System.out.println("0. Exit");
 
         int selection = clearBufforAndGetInput(s);
@@ -93,7 +93,7 @@ public class TextGUI {
                 }
                 break;
             case 4:
-                if (gl.getGameData().getPlanet().hasSpaceStation()) gl.goToSpaceStation();
+                if (gl.getPlanetBoundData().getPlanet().hasSpaceStation()) gl.goToSpaceStation();
                 break;
             case 0:
                 exit = true;
@@ -104,10 +104,10 @@ public class TextGUI {
         printLastLogs();
         Scanner s = new Scanner(System.in);
         System.out.println("You are at the planet surface.");
-        System.out.println("Planet has resource type " + gl.getGameData().getExLogic().getResource().getResourceType() + "\n");
+        System.out.println("Planet has resource type " + gl.getPlanetBoundData().getExLogic().getResource().getResourceType() + "\n");
 
         System.out.print("\n");
-        gl.getGameData().getExLogic().drawGrid();
+        gl.getPlanetBoundData().getExLogic().drawGrid();
         System.out.print("\n");
 
         System.out.println("w - Move up");
@@ -187,7 +187,7 @@ public class TextGUI {
     private void waitingForReturnConfirmationGUI(){
         printLastLogs();
         System.out.println("Are you sure you want to return?");
-        if (gl.getGameData().getExLogic().isResourceInDrone())
+        if (gl.getPlanetBoundData().getExLogic().isResourceInDrone())
             System.out.println("You have gathered resources\n");
         else System.out.println("You have not gathered any resources\n");
 
@@ -263,20 +263,20 @@ public class TextGUI {
     }
 
     private void showStatus() {
-        int maxResource = gl.getGameData().getShip().getCargoSystem().getCurrentMaxResourceAmount();
-        int currentFuel = gl.getGameData().getShip().getFuelSystem().getFuelAmount();
-        int maxFuel = gl.getGameData().getShip().getFuelSystem().getMaxFuelAmount();
-        int currentShield = gl.getGameData().getShip().getShieldSystem().getShieldsAmount();
-        int maxShield = gl.getGameData().getShip().getShieldSystem().getMaxShieldsAmount();
-        int currentWeapon = gl.getGameData().getShip().getWeaponSystem().getWeapons();
-        int maxWeapon = gl.getGameData().getShip().getWeaponSystem().getMaxWeapons();
+        int maxResource = gl.getPlanetBoundData().getShip().getCargoSystem().getCurrentMaxResourceAmount();
+        int currentFuel = gl.getPlanetBoundData().getShip().getFuelSystem().getFuelAmount();
+        int maxFuel = gl.getPlanetBoundData().getShip().getFuelSystem().getMaxFuelAmount();
+        int currentShield = gl.getPlanetBoundData().getShip().getShieldSystem().getShieldsAmount();
+        int maxShield = gl.getPlanetBoundData().getShip().getShieldSystem().getMaxShieldsAmount();
+        int currentWeapon = gl.getPlanetBoundData().getShip().getWeaponSystem().getWeapons();
+        int maxWeapon = gl.getPlanetBoundData().getShip().getWeaponSystem().getMaxWeapons();
 
-        System.out.println("Resources: BLACK " + gl.getGameData().getShip().getCargoSystem().getBlackResourceAmount() + "/" + maxResource +
-        " BLUE " + gl.getGameData().getShip().getCargoSystem().getBlueResourceAmount() + "/" + maxResource +
-        " RED " + gl.getGameData().getShip().getCargoSystem().getRedResourceAmount() + "/" + maxResource +
-        " GREEN " + gl.getGameData().getShip().getCargoSystem().getGreenResourceAmount() + "/" + maxResource +
-                " Crew: " + gl.getGameData().getShip().getCrewAmount() +
-                " Artifacts: " + gl.getGameData().getShip().getAmountOfArtifacts() +
+        System.out.println("Resources: BLACK " + gl.getPlanetBoundData().getShip().getCargoSystem().getBlackResourceAmount() + "/" + maxResource +
+        " BLUE " + gl.getPlanetBoundData().getShip().getCargoSystem().getBlueResourceAmount() + "/" + maxResource +
+        " RED " + gl.getPlanetBoundData().getShip().getCargoSystem().getRedResourceAmount() + "/" + maxResource +
+        " GREEN " + gl.getPlanetBoundData().getShip().getCargoSystem().getGreenResourceAmount() + "/" + maxResource +
+                " Crew: " + gl.getPlanetBoundData().getShip().getCrewAmount() +
+                " Artifacts: " + gl.getPlanetBoundData().getShip().getAmountOfArtifacts() +
                 " Fuel: " + currentFuel + "/" + maxFuel +
                 " Shield: " + currentShield + "/" + maxShield +
                 " Weapon: " + currentWeapon + "/" + maxWeapon +
@@ -285,19 +285,19 @@ public class TextGUI {
     }
 
     private void printLastLogs() {
-        for (Log log : gl.getGameData().getLogRecorder().getUnreadLogs()) {
+        for (Log log : gl.getPlanetBoundData().getLogRecorder().getUnreadLogs()) {
             System.out.println(log);
         }
     }
 
     private String isDroneAvailable() {
-        if (gl.getGameData().getShip().getDrone().isDestroyed()) return "no";
+        if (gl.getPlanetBoundData().getShip().getDrone().isDestroyed()) return "no";
         return "yes";
     }
 
     private String showResources() {
         String resString = "";
-        for (Resource r : gl.getGameData().getPlanet().getResources()) {
+        for (Resource r : gl.getPlanetBoundData().getPlanet().getResources()) {
             resString += r.getResourceType() + " ";
         }
         return resString;

@@ -1,33 +1,36 @@
 package logic.states;
 
 import logic.Randomizer;
-import logic.GameData;
+import logic.PlanetBoundData;
 import logic.data.exceptions.GameException;
 import logic.data.exceptions.NoFuelException;
 
-public class SpaceTravelState extends StateAdapter {
-    public SpaceTravelState(GameData gameData) {
-        super(gameData);
+public class AwaitMoveState extends StateAdapter {
+    public AwaitMoveState(PlanetBoundData planetBoundData) {
+        super(planetBoundData);
     }
 
     @Override
-    public IState goToSpaceStation(){
-        if(!getGameData().getPlanet().hasSpaceStation() || getGameData().getPlanet().getSpaceStation().isAlreadyVisited()) return new SpaceTravelState(getGameData());
+    public IState exploreSpaceStation() {
+        if(!getPlanetBoundData().getPlanet().hasSpaceStation()) return this;
+        return new AwaitBuyState(getPlanetBoundData());
+    }
 
-        getGameData().getPlanet().getSpaceStation().dockShip(getGameData().getShip());
-        return new AtSpaceStationState(getGameData());
+    @Override
+    public IState explorePlanet() {
+        return super.explorePlanet();
     }
 
     @Override
     public IState goToPlanet(){
         if(!getGameData().getPlanet().hasResources()) return this;
         if(!getGameData().getShip().isExplorationOfficerAvailable()) return this;
-            return new AtPlanetState(getGameData());
+            return new AwaitFinishExplorationState(getGameData());
     }
 
     @Override
-    public IState goToNextRegion() {
-        if (getGameData().getShip().getAmountOfArtifacts() >= 5) return new GameWonState(getGameData());
+    public IState lookForAnotherPlanet() {
+        if (getGameData().getShip().getAmountOfArtifacts() >= 5) return new GameOverState(getGameData());
         Event event = new Event(getGameData().getLogRecorder());
         try {
             travelCost();
@@ -41,7 +44,7 @@ public class SpaceTravelState extends StateAdapter {
         if (getGameData().getShip().getFuelSystem().getFuelAmount() == 0 || getGameData().getShip().getCrewAmount() == 0) return new GameLostState(getGameData());
 
         getGameData().generateNextPlanet();
-        return new SpaceTravelState(getGameData());
+        return new AwaitMoveState(getGameData());
     }
 
 

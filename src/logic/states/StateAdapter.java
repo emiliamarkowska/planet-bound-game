@@ -1,85 +1,75 @@
 package logic.states;
 
-import logic.GameData;
-import logic.data.movables.Resource;
+import logic.PlanetBoundData;
+import logic.data.shipmodels.ResourceType;
 
 public class StateAdapter implements IState {
 
-    private GameData gameData;
+    private PlanetBoundData planetBoundData;
 
-    public StateAdapter(GameData gameData) {
-        this.gameData = gameData;
+    public StateAdapter(PlanetBoundData planetBoundData){
+        this.planetBoundData = planetBoundData;
     }
 
-    public GameData getGameData() {
-        return gameData;
-    }
-
+    //AVAILABLE FROM AwaitShipSelectionState
     @Override
-    public IState selectShip(boolean isMilitary) {
+    public IState chooseShip(boolean isMiningShip) {
+        return this;
+    }
+
+    //AVAILABLE FROM AwaitMoveState
+    @Override
+    public IState exploreSpaceStation() {
         return this;
     }
 
     @Override
-    public IState goToSpaceStation() {
+    public IState explorePlanet() {
         return this;
     }
 
     @Override
-    public IState goToSpaceTravel() {
+    public IState lookForAnotherPlanet() {
         return this;
     }
 
-    @Override
-    public IState goToPlanet() {
-        return this;
-    }
-
-    @Override
-    public IState gameStatusCheck(int artifactNumber, int fuelAmount, int crewMembersAmount) {
-        return this;
-    }
-
-    @Override
-    public IState repeat() {
-        return this;
-    }
-
-    @Override
-    public IState playAgain() {
-        return this;
-    }
-
+    //AVAILABLE FROM AwaitBuyState
     @Override
     public IState upgradeCargo() {
         return this;
     }
 
     @Override
-    public IState convertResource(Resource from, Resource to) {
+    public IState exchangeResource(ResourceType from, ResourceType to) {
         return this;
     }
 
     @Override
-    public IState hireCrew() {
+    public IState addCrewMember() {
         return this;
     }
 
     @Override
-    public IState upgradeWeaponSystem() {
+    public IState upgradeWeapon() {
         return this;
     }
 
     @Override
-    public IState replenishArmor() {
+    public IState fillAmmo() {
         return this;
     }
 
     @Override
-    public IState buyNewDrone() {
+    public IState repairDrone() {
         return this;
     }
 
+    @Override
+    public IState convertToShipResources(String type, int amount) {
+        return this;
+    }
+
+    //AVAILABLE FROM AwaitFinishExplorationState
     @Override
     public IState goUp() {
         return this;
@@ -100,24 +90,19 @@ public class StateAdapter implements IState {
         return this;
     }
 
+    //AVAILABLE FROM AwaitBuyState, AwaitFinishExplorationState
     @Override
-    public IState acceptReturn() {
+    public IState exploreSpace() {
         return this;
     }
 
+    //AVAILABLE FROM GameOverState
     @Override
-    public IState declineReturn() {
+    public IState restartGame() {
         return this;
     }
 
-    @Override
-    public IState goToNextRegion() {
-        return this;
+    public PlanetBoundData getPlanetBoundData() {
+        return planetBoundData;
     }
-
-    @Override
-    public IState produce(String type, int amount) {
-        return this;
-    }
-
 }

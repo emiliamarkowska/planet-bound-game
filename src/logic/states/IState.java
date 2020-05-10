@@ -1,27 +1,35 @@
 package logic.states;
 
-import logic.data.movables.Resource;
+import logic.data.shipmodels.ResourceType;
 
 public interface IState {
-    IState selectShip(boolean isMilitary);
-    IState goToSpaceStation();
-    IState goToSpaceTravel();
-    IState goToPlanet();
-    IState gameStatusCheck(int artifactNumber, int fuelAmount, int crewMembersAmount);
-    IState repeat();
-    IState playAgain();
+    //AVAILABLE FROM AwaitShipSelectionState
+    IState chooseShip(boolean isMiningShip);
+
+    //AVAILABLE FROM AwaitMoveState
+    IState exploreSpaceStation();
+    IState explorePlanet();
+    IState lookForAnotherPlanet();
+
+    //AVAILABLE FROM AwaitBuyState
     IState upgradeCargo();
-    IState convertResource(Resource from, Resource to);
-    IState hireCrew();
-    IState upgradeWeaponSystem();
-    IState replenishArmor();
-    IState buyNewDrone();
+    IState exchangeResource(ResourceType from, ResourceType to);
+    IState addCrewMember();
+    IState upgradeWeapon();
+    IState fillAmmo();
+    IState repairDrone();
+    IState convertToShipResources(String type, int amount);
+
+    //AVAILABLE FROM AwaitFinishExplorationState
     IState goUp();
     IState goDown();
     IState goLeft();
     IState goRight();
-    IState acceptReturn();
-    IState declineReturn();
-    IState goToNextRegion();
-    IState produce(String type, int amount);
+
+    //AVAILABLE FROM AwaitBuyState, AwaitFinishExplorationState
+    IState exploreSpace();
+
+    //AVAILABLE FROM GameOverState
+    IState restartGame();
+
 }

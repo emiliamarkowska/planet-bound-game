@@ -3,16 +3,18 @@ package logic;
 import logic.data.LogRecorder;
 import logic.data.planetmodels.Planet;
 import logic.data.factories.PlanetFactory;
+import logic.data.planetmodels.SpaceStation;
 import logic.data.shipmodels.Ship;
 
-public class GameData {
+public class PlanetBoundData {
 
     private Ship ship;
     private Planet planet;
-    private PlanetExplorationLogic exLogic;
+    private SpaceStation spaceStation;
+    private ExplorationPhase exLogic;
     private LogRecorder logRecorder;
 
-    GameData() {
+    PlanetBoundData() {
         ship = null;
         generateNextPlanet();
         exLogic = null;
@@ -25,13 +27,14 @@ public class GameData {
 
     public void setShip(Ship ship) {
         this.ship = ship;
+        spaceStation = new SpaceStation(ship);
     }
 
-    public PlanetExplorationLogic getExLogic() {
+    public ExplorationPhase getExLogic() {
         return exLogic;
     }
 
-    public void setExLogic(PlanetExplorationLogic exLogic) {
+    public void setExLogic(ExplorationPhase exLogic) {
         this.exLogic = exLogic;
     }
 
@@ -45,5 +48,9 @@ public class GameData {
 
     public void generateNextPlanet() {
         planet = PlanetFactory.createRandomPlanet();
+    }
+
+    public SpaceStation getSpaceStation() {
+        return spaceStation;
     }
 }

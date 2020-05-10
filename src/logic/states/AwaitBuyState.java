@@ -1,14 +1,14 @@
 package logic.states;
 
-import logic.GameData;
+import logic.PlanetBoundData;
 import logic.data.movables.Resource;
 import logic.data.exceptions.GameException;
 import logic.data.planetmodels.SpaceStation;
 
-public class AtSpaceStationState extends StateAdapter {
+public class AwaitBuyState extends StateAdapter {
     private final SpaceStation spaceStation;
 
-    public AtSpaceStationState(GameData gameData) {
+    public AwaitBuyState(PlanetBoundData gameData) {
         super(gameData);
 
         spaceStation = gameData.getPlanet().getSpaceStation();
@@ -16,7 +16,7 @@ public class AtSpaceStationState extends StateAdapter {
 
     @Override
     public IState goToSpaceTravel(){
-        return new SpaceTravelState(getGameData());
+        return new AwaitMoveState(getGameData());
     }
 
     @Override
@@ -40,7 +40,7 @@ public class AtSpaceStationState extends StateAdapter {
     }
 
     @Override
-    public IState hireCrew() {
+    public IState addCrewMember() {
         try {
             spaceStation.hireCrew();
         } catch (GameException e) {
@@ -50,7 +50,7 @@ public class AtSpaceStationState extends StateAdapter {
     }
 
     @Override
-    public IState upgradeWeaponSystem() {
+    public IState upgradeWeapon() {
         try {
             spaceStation.upgradeWeaponSystem();
         } catch (GameException e) {
@@ -60,7 +60,7 @@ public class AtSpaceStationState extends StateAdapter {
     }
 
     @Override
-    public IState replenishArmor() {
+    public IState fillAmmo() {
         try {
             spaceStation.replenishArmor();
         } catch (GameException e) {
@@ -70,7 +70,7 @@ public class AtSpaceStationState extends StateAdapter {
     }
 
     @Override
-    public IState buyNewDrone() {
+    public IState repairDrone() {
         try {
             spaceStation.buyNewDrone();
         } catch (GameException e) {
