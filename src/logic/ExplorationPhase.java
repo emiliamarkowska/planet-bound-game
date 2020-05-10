@@ -18,7 +18,7 @@ public class ExplorationPhase {
     private boolean backToStartingPoint;
     private boolean droneDead;
 
-    ExplorationPhase(Drone drone, Planet planet) {
+    public ExplorationPhase(Drone drone, Planet planet) {
         this.drone = drone;
         this.planet = planet;
         resourceFollows = false;
@@ -86,5 +86,9 @@ public class ExplorationPhase {
 
     public boolean isDroneDead() {
         return droneDead;
+    }
+
+    public Resource getResource() {
+        return resource;
     }
 }

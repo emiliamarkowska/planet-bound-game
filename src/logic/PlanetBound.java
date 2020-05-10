@@ -52,7 +52,7 @@ public class PlanetBound {
     }
 
     public void replenishArmor() {
-        this.setState(this.state.fillAmmo());
+        this.setState(this.state.repairShip());
     }
 
     public void buyNewDrone() {

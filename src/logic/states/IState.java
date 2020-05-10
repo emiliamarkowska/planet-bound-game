@@ -1,6 +1,7 @@
 package logic.states;
 
 import logic.data.shipmodels.ResourceType;
+import logic.data.shipmodels.UsableResourceType;
 
 public interface IState {
     //AVAILABLE FROM AwaitShipSelectionState
@@ -16,9 +17,9 @@ public interface IState {
     IState exchangeResource(ResourceType from, ResourceType to);
     IState addCrewMember();
     IState upgradeWeapon();
-    IState fillAmmo();
+    IState repairShip();
     IState repairDrone();
-    IState convertToShipResources(String type, int amount);
+    IState convertToShipResources(UsableResourceType type, int amount);
 
     //AVAILABLE FROM AwaitFinishExplorationState
     IState goUp();

@@ -4,78 +4,64 @@ import logic.PlanetBoundData;
 import logic.data.movables.Resource;
 import logic.data.exceptions.GameException;
 import logic.data.planetmodels.SpaceStation;
+import logic.data.shipmodels.ResourceType;
+import logic.data.shipmodels.UsableResourceType;
 
 public class AwaitBuyState extends StateAdapter {
     private final SpaceStation spaceStation;
+    private IState prevState;
 
-    public AwaitBuyState(PlanetBoundData gameData) {
-        super(gameData);
+    public AwaitBuyState(PlanetBoundData planetBoundData, AwaitMoveState prevState) {
+        super(planetBoundData);
 
-        spaceStation = gameData.getPlanet().getSpaceStation();
-    }
-
-    @Override
-    public IState goToSpaceTravel(){
-        return new AwaitMoveState(getGameData());
+        this.prevState = prevState;
+        this.spaceStation = planetBoundData.getSpaceStation();
     }
 
     @Override
     public IState upgradeCargo() {
-        try {
-            spaceStation.upgradeCargo();
-        } catch (GameException e) {
-            getGameData().getLogRecorder().addLog(e.getMessage());
-        }
-        return goToSpaceTravel();
+        spaceStation.upgradeCargo();
+        return this;
     }
 
     @Override
-    public IState convertResource(Resource from, Resource to) {
-        try {
-            spaceStation.convertResource(from, to);
-        } catch (GameException e) {
-            getGameData().getLogRecorder().addLog(e.getMessage());
-        }
-        return goToSpaceTravel();
+    public IState exchangeResource(ResourceType from, ResourceType to) {
+        spaceStation.convertResource(from, to);
+        return this;
     }
 
     @Override
     public IState addCrewMember() {
-        try {
-            spaceStation.hireCrew();
-        } catch (GameException e) {
-            getGameData().getLogRecorder().addLog(e.getMessage());
-        }
-        return goToSpaceTravel();
+        spaceStation.hireCrew();
+        return this;
     }
 
     @Override
     public IState upgradeWeapon() {
-        try {
-            spaceStation.upgradeWeaponSystem();
-        } catch (GameException e) {
-            getGameData().getLogRecorder().addLog(e.getMessage());
-        }
-        return goToSpaceTravel();
+        spaceStation.upgradeWeaponSystem();
+        return this;
     }
 
     @Override
-    public IState fillAmmo() {
-        try {
-            spaceStation.replenishArmor();
-        } catch (GameException e) {
-            getGameData().getLogRecorder().addLog(e.getMessage());
-        }
-        return goToSpaceTravel();
+    public IState repairShip() {
+        spaceStation.fillShield();
+        return this;
     }
 
     @Override
     public IState repairDrone() {
-        try {
-            spaceStation.buyNewDrone();
-        } catch (GameException e) {
-            getGameData().getLogRecorder().addLog(e.getMessage());
-        }
-        return goToSpaceTravel();
+        spaceStation.buyNewDrone();
+        return this;
+    }
+
+    @Override
+    public IState convertToShipResources(UsableResourceType type, int amount) {
+        spaceStation.convertToShipResources(type, amount);
+        return this;
+    }
+
+    @Override
+    public IState exploreSpace() {
+        return prevState;
     }
 }

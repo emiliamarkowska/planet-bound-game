@@ -104,10 +104,10 @@ public class TextGUI {
         printLastLogs();
         Scanner s = new Scanner(System.in);
         System.out.println("You are at the planet surface.");
-        System.out.println("Planet has resource type " + gl.getPlanetBoundData().getExLogic().getResource().getResourceType() + "\n");
+        System.out.println("Planet has resource type " + gl.getPlanetBoundData().getExplorationPhase().getResource().getResourceType() + "\n");
 
         System.out.print("\n");
-        gl.getPlanetBoundData().getExLogic().drawGrid();
+        gl.getPlanetBoundData().getExplorationPhase().drawGrid();
         System.out.print("\n");
 
         System.out.println("w - Move up");
@@ -187,7 +187,7 @@ public class TextGUI {
     private void waitingForReturnConfirmationGUI(){
         printLastLogs();
         System.out.println("Are you sure you want to return?");
-        if (gl.getPlanetBoundData().getExLogic().isResourceInDrone())
+        if (gl.getPlanetBoundData().getExplorationPhase().isResourceInDrone())
             System.out.println("You have gathered resources\n");
         else System.out.println("You have not gathered any resources\n");
 

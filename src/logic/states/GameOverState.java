@@ -3,12 +3,14 @@ package logic.states;
 import logic.PlanetBoundData;
 
 public class GameOverState extends StateAdapter {
-    public GameOverState(PlanetBoundData gameData) {
-        super(gameData);
+    private boolean hasWon;
+
+    public GameOverState(PlanetBoundData planetBoundData, boolean hasWon) {
+        super(planetBoundData);
     }
 
     @Override
-    public IState playAgain(){
-        return new AwaitShipSelectionState(getGameData());
+    public IState restartGame() {
+        return new AwaitShipSelectionState(getPlanetBoundData());
     }
 }

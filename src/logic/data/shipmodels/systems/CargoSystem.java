@@ -37,6 +37,8 @@ public class CargoSystem extends System {
         return this.blackAmount;
     }
 
+    public int getArtifacts() {return  this.artifacts; }
+
 
     public void payResource(int amount, ResourceType resourceType) {
         //TODO: a co jak nie ma tyle zasobów?
@@ -83,6 +85,9 @@ public class CargoSystem extends System {
             case BLACK:
                 if(amount > getMaxAmount() - getBlackAmount()) greenAmount = maxAmount;
                 else blackAmount += amount;
+                break;
+            case PINK:
+                artifacts += 1;
                 break;
         }
     }
