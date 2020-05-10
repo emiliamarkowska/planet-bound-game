@@ -1,7 +1,6 @@
 package logic.data.shipmodels.officers;
 
 import logic.data.shipmodels.systems.CargoSystem;
-import logic.data.shipmodels.systems.System;
 
 public class CargoOfficer extends Officer {
     private CargoSystem cargoSystem;
@@ -12,11 +11,11 @@ public class CargoOfficer extends Officer {
 
     @Override
     public void disableSystem(){
-        this.cargoSystem.setAvailable(false);
+        this.cargoSystem.setEnabled(false);
     }
 
     @Override
     public void enableSystem(){
-        this.cargoSystem.setAvailable(true);
+        this.cargoSystem.setEnabled(true);
     }
 }

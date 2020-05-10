@@ -67,13 +67,13 @@ public class Event {
                 logRecorder.addLog("You have found a ship in distress with a lone crew member.");
                 switch(ship.getCrewAmount()){
                     case 4:
-                        ship.getShieldSystem().setAvailable(true);
+                        ship.getShieldSystem().setEnabled(true);
                         break;
                     case 5:
-                        ship.getWeaponSystem().setAvailable(true);
+                        ship.getWeaponSystem().setEnabled(true);
                         break;
                     case 6:
-                        ship.getCargoSystem().setAvailable(true);
+                        ship.getCargoSystem().setEnabled(true);
                         break;
                 }
                 break;

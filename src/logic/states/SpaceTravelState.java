@@ -48,7 +48,7 @@ public class SpaceTravelState extends StateAdapter {
 
     @Override
     public IState produce(String type, int amount){
-        if(!getGameData().getShip().getCargoSystem().isAvailable()) return this;
+        if(!getGameData().getShip().getCargoSystem().isEnabled()) return this;
 
         switch(type) {
             case "ammo":

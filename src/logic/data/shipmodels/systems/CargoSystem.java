@@ -131,9 +131,9 @@ public class CargoSystem extends System {
 
 
     public void upgradeCargoSystem() {
-        if(!isAvailable) return;
-        if (!isMining && maxAmount == 12) return;
-        if (isMining && maxAmount == 24) return;
+        if(!isEnabled) return;
+        if (!isMiningShip && maxAmount == 12) return;
+        if (isMiningShip && maxAmount == 24) return;
         maxAmount += 6;
     }
 

@@ -18,8 +18,8 @@ public class WeaponSystem extends System {
     }
 
     public void upgradeWeaponSystem() {
-        if (!isMining && this.maxAmount == 18) return;
-        if (isMining) return;
+        if (!isMiningShip && this.maxAmount == 18) return;
+        if (isMiningShip) return;
         this.maxAmount += 9;
         this.ammo = this.maxAmount;
     }

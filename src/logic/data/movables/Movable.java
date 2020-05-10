@@ -40,4 +40,6 @@ public class Movable {
     public Point getPosition() {
         return position;
     }
+
+    public void setPosition(Point point) { this.position = point; }
 }

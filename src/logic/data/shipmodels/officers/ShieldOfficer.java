@@ -11,10 +11,10 @@ public class ShieldOfficer extends Officer {
 
     @Override
     public void disableSystem(){
-        this.shieldSystem.setAvailable(false);
+        this.shieldSystem.setEnabled(false);
     }
 
     public void enableSystem(){
-        this.shieldSystem.setAvailable(true);
+        this.shieldSystem.setEnabled(true);
     }
 }
