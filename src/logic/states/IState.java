@@ -1,5 +1,9 @@
 package logic.states;
 
+import logic.data.exceptions.CrewFullException;
+import logic.data.exceptions.NotEnoughResourcesException;
+import logic.data.exceptions.SystemDisabledException;
+import logic.data.exceptions.UpgradeMaxException;
 import logic.data.shipmodels.ResourceType;
 import logic.data.shipmodels.UsableResourceType;
 
@@ -13,13 +17,13 @@ public interface IState {
     IState lookForAnotherPlanet();
 
     //AVAILABLE FROM AwaitBuyState
-    IState upgradeCargo();
-    IState exchangeResource(ResourceType from, ResourceType to);
-    IState addCrewMember();
-    IState upgradeWeapon();
+    IState upgradeCargo() throws SystemDisabledException, UpgradeMaxException, NotEnoughResourcesException;
+    IState exchangeResource(ResourceType from, ResourceType to) throws NotEnoughResourcesException;
+    IState addCrewMember() throws NotEnoughResourcesException, CrewFullException;
+    IState upgradeWeapon() throws NotEnoughResourcesException, UpgradeMaxException;
     IState repairShip();
     IState repairDrone();
-    IState convertToShipResources(UsableResourceType type, int amount);
+    IState convertToShipResources(UsableResourceType type, int amount) throws NotEnoughResourcesException;
 
     //AVAILABLE FROM AwaitFinishExplorationState
     IState goUp();

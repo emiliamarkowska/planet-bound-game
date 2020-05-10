@@ -19,13 +19,9 @@ public class SpaceStation{
     }
 
     public void upgradeCargo() throws NotEnoughResourcesException, SystemDisabledException, UpgradeMaxException {
-        try{
+
            shipOnStation.getCargoSystem().upgradeCargoSystem();
            shipOnStation.getCargoSystem().payAllResources(1);
-        }catch(SystemDisabledException e){
-
-        }
-
     }
 
 
@@ -55,7 +51,7 @@ public class SpaceStation{
         shipOnStation.setDrone(new Drone(new Point(0,0)));
     }
 
-    public void convertToShipResources(UsableResourceType type, int amount) {
+    public void convertToShipResources(UsableResourceType type, int amount) throws NotEnoughResourcesException {
 
         switch(type) {
             case AMMO:
