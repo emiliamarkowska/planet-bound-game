@@ -4,6 +4,8 @@ import logic.Logs;
 import logic.data.exceptions.NotEnoughResourcesException;
 import logic.data.exceptions.SystemDisabledException;
 import logic.data.exceptions.UpgradeMaxException;
+import logic.Logs;
+import logic.data.exceptions.NotEnoughResourcesException;
 import logic.data.shipmodels.ResourceType;
 
 public class CargoSystem extends System {
@@ -41,6 +43,8 @@ public class CargoSystem extends System {
         return this.blackAmount;
     }
 
+    public int getArtifacts() {return  this.artifacts; }
+
     public int getAmount(ResourceType resourceType){
         switch(resourceType){
             case RED:
@@ -54,16 +58,14 @@ public class CargoSystem extends System {
         }
         return -1;
     }
-
-
     public void payResource(int amount, ResourceType resourceType) throws NotEnoughResourcesException {
-        if(!canBeResourcePaid(resourceType, amount)) {
+        if (!canBeResourcePaid(resourceType, amount)) {
             String errorMessage = "Not enough amount of " + resourceType.toString() + " resource to pay. Tried to pay " + amount +
                     " having only " + getAmount(resourceType) + ".";
             Logs.putLog(errorMessage);
-             throw new NotEnoughResourcesException(errorMessage);
+            throw new NotEnoughResourcesException(errorMessage);
         }
-        switch (resourceType){
+        switch (resourceType) {
             case RED:
                 redAmount -= amount;
                 break;
@@ -79,8 +81,6 @@ public class CargoSystem extends System {
         }
         Logs.putLog(resourceType + " resource spend in amount of: " + amount);
     }
-
-
     public void payAllResources (int amount) throws NotEnoughResourcesException {
         if(!canBeResourcePaid(ResourceType.RED, amount) || !canBeResourcePaid(ResourceType.BLUE, amount)
                 || !canBeResourcePaid(ResourceType.GREEN, amount) || !canBeResourcePaid(ResourceType.BLACK  , amount)) {
@@ -112,6 +112,9 @@ public class CargoSystem extends System {
             case BLACK:
                 if(amount > getMaxAmount() - getBlackAmount()) greenAmount = maxAmount;
                 else blackAmount += amount;
+                break;
+            case PINK:
+                artifacts += 1;
                 break;
         }
         Logs.putLog(resourceType + " resource added in amount of: " + amount);

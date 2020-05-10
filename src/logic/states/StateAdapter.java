@@ -2,6 +2,7 @@ package logic.states;
 
 import logic.PlanetBoundData;
 import logic.data.shipmodels.ResourceType;
+import logic.data.shipmodels.UsableResourceType;
 
 public class StateAdapter implements IState {
 
@@ -55,7 +56,7 @@ public class StateAdapter implements IState {
     }
 
     @Override
-    public IState fillAmmo() {
+    public IState repairShip() {
         return this;
     }
 
@@ -65,7 +66,7 @@ public class StateAdapter implements IState {
     }
 
     @Override
-    public IState convertToShipResources(String type, int amount) {
+    public IState convertToShipResources(UsableResourceType type, int amount) {
         return this;
     }
 

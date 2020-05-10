@@ -8,6 +8,7 @@ import logic.data.geometry.Point;
 import logic.data.movables.Drone;
 import logic.data.shipmodels.ResourceType;
 import logic.data.shipmodels.Ship;
+import logic.data.shipmodels.UsableResourceType;
 
 public class SpaceStation{
 
@@ -52,6 +53,29 @@ public class SpaceStation{
     public void buyNewDrone() {
         //TODO: płatność
         shipOnStation.setDrone(new Drone(new Point(0,0)));
+    }
+
+    public void convertToShipResources(UsableResourceType type, int amount) {
+
+        switch(type) {
+            case AMMO:
+                shipOnStation.getCargoSystem().payResource(1, ResourceType.BLACK);
+                shipOnStation.getCargoSystem().payResource(1, ResourceType.BLUE);
+                shipOnStation.getWeaponSystem().addAmmo(1);
+                break;
+            case SHIELD:
+                shipOnStation.getCargoSystem().payResource(1, ResourceType.BLACK);
+                shipOnStation.getCargoSystem().payResource(1, ResourceType.BLUE);
+                shipOnStation.getCargoSystem().payResource(1, ResourceType.GREEN);
+                shipOnStation.getShieldSystem().addShield(1);
+                break;
+            case FUEL:
+                shipOnStation.getCargoSystem().payResource(1, ResourceType.BLACK);
+                shipOnStation.getCargoSystem().payResource(1, ResourceType.RED);
+                shipOnStation.getCargoSystem().payResource(1, ResourceType.GREEN);
+                shipOnStation.getFuelSystem().addFuel(1);
+                break;
+        }
     }
 
 }

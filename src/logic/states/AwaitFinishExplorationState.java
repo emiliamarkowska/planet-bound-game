@@ -1,49 +1,63 @@
 package logic.states;
 
+import logic.ExplorationPhase;
 import logic.PlanetBoundData;
+import logic.Randomizer;
 
 public class AwaitFinishExplorationState extends StateAdapter {
 
-    PlanetExplorationLogic logic;
+    private ExplorationPhase explorationPhase;
+    private IState prevState;
 
-    public AwaitFinishExplorationState(PlanetBoundData gameData) {
-        super(gameData);
+    public AwaitFinishExplorationState(PlanetBoundData planetBoundData, IState prevState) {
+        super(planetBoundData);
+        this.prevState = prevState;
 
-        gameData.setExLogic(new PlanetExplorationLogic(gameData.getShip(), gameData.getPlanet().getRandomResource(), gameData.getLogRecorder()));
-        logic = gameData.getExLogic();
+        explorationPhase = new ExplorationPhase(getPlanetBoundData().getShip().getDrone(), getPlanetBoundData().getPlanet());
     }
 
     @Override
     public IState goUp() {
-        logic.moveDrone("up");
-        if (logic.isDroneBackInShip()) return new WaitingForReturnConfirmationState(getGameData(), this);
-        if (logic.isDroneDestroyed()) return new AwaitMoveState(getGameData());
+        if (isBack()) {
+            gatherResource();
+            return prevState;
+        }
         return this;
     }
 
     @Override
     public IState goDown() {
-        logic.moveDrone("down");
-        if (logic.isDroneBackInShip()) return new WaitingForReturnConfirmationState(getGameData(), this);
-        if (logic.isDroneDestroyed()) return new AwaitMoveState(getGameData());
+        if (isBack()) {
+            gatherResource();
+            return prevState;
+        }
         return this;
     }
 
     @Override
     public IState goLeft() {
-        logic.moveDrone("left");
-        if (logic.isDroneBackInShip()) return new WaitingForReturnConfirmationState(getGameData(), this);
-        if (logic.isDroneDestroyed()) return new AwaitMoveState(getGameData());
+        if (isBack()) {
+            gatherResource();
+            return prevState;
+        }
         return this;
     }
 
     @Override
     public IState goRight() {
-        logic.moveDrone("right");
-        if (logic.isDroneBackInShip()) return new WaitingForReturnConfirmationState(getGameData(), this);
-        if (logic.isDroneDestroyed()) return new AwaitMoveState(getGameData());
+        if (isBack()) {
+            gatherResource();
+            return prevState;
+        }
         return this;
     }
 
+    private boolean isBack() {
+        return explorationPhase.isResourceFollows() && explorationPhase.isBackToStartingPoint();
+    }
 
+    private void gatherResource() {
+        getPlanetBoundData().getShip().getCargoSystem().addResource(Randomizer.randomInt(1, 6), explorationPhase.getResource().getResourceType());
+        getPlanetBoundData().getPlanet().deleteMinedResource();
+    }
 }
