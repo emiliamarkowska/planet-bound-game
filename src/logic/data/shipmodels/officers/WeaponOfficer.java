@@ -1,5 +1,6 @@
 package logic.data.shipmodels.officers;
 
+import logic.Logs;
 import logic.data.shipmodels.systems.WeaponSystem;
 
 public class WeaponOfficer extends Officer {
@@ -12,10 +13,12 @@ public class WeaponOfficer extends Officer {
     @Override
     public void disableSystem(){
         this.weaponSystem.setEnabled(false);
+        Logs.putLog("Weapon system disabled");
     }
 
     @Override
     public void enableSystem(){
         this.weaponSystem.setEnabled(true);
+        Logs.putLog("Weapon system enabled");
     }
 }

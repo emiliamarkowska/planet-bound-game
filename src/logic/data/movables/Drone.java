@@ -1,9 +1,8 @@
 package logic.data.movables;
 
-import logic.Point;
+import logic.Logs;
+import logic.data.geometry.Point;
 import logic.Randomizer;
-
-import java.awt.geom.Point2D;
 
 public class Drone extends MovableFighting{
 
@@ -15,7 +14,11 @@ public class Drone extends MovableFighting{
     @Override
     public void fight(MovableFighting mov) {
         Alien alien = (Alien)mov;
-        if (Randomizer.randomSuccessFraction(alien.getAlienType().getDeathChance(), 6)) alien.decreaseHealth();
+        if (Randomizer.randomSuccessFraction(alien.getAlienType().getDeathChance(), 6)){
+            Logs.putLog("Drone shot - alien killed");
+            alien.decreaseHealth();
+        }
+        else Logs.putLog("Drone shot - missed");
     }
 
 

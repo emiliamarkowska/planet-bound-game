@@ -2,8 +2,6 @@ package logic.states;
 
 import logic.Randomizer;
 import logic.PlanetBoundData;
-import logic.data.exceptions.GameException;
-import logic.data.exceptions.NoFuelException;
 
 public class AwaitMoveState extends StateAdapter {
     public AwaitMoveState(PlanetBoundData planetBoundData) {

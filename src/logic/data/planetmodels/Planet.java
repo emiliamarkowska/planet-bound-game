@@ -1,5 +1,6 @@
 package logic.data.planetmodels;
 
+import logic.Logs;
 import logic.Randomizer;
 import logic.data.movables.Resource;
 import logic.data.shipmodels.ResourceType;
@@ -30,8 +31,11 @@ public class Planet {
 
     public void deleteResource(ResourceType resourceType){
         for (ResourceType r : resourcesOnPlanet) {
-            if(r == resourceType)
+            if(r == resourceType){
                 resourcesOnPlanet.remove(r);
+                Logs.putLog(resourceType + " resource deleted from the planet");
+            }
+
         }
     }
 
@@ -42,11 +46,13 @@ public class Planet {
     public ResourceType getResourceToBeMined() {
         int randomIndex = Randomizer.randomInt(0, resourcesOnPlanet.size() - 1);
         minedResource = resourcesOnPlanet.get(randomIndex);
+        Logs.putLog(minedResource + "resource is to be mined");
         return minedResource;
     }
 
     public void deleteMinedResource() {
         resourcesOnPlanet.remove(minedResource);
+        Logs.putLog(minedResource + " resource is mined and is deleted from available resources");
     }
 
     public boolean hasResources(){

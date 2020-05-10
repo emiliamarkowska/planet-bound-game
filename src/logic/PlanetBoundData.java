@@ -1,6 +1,5 @@
 package logic;
 
-import logic.data.LogRecorder;
 import logic.data.planetmodels.Planet;
 import logic.data.factories.PlanetFactory;
 import logic.data.planetmodels.SpaceStation;

@@ -1,7 +1,6 @@
 package gui;
 
 import logic.PlanetBound;
-import logic.data.Log;
 import logic.data.movables.Resource;
 import logic.data.shipmodels.ResourceType;
 import logic.states.*;

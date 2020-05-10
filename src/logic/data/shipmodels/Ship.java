@@ -1,7 +1,9 @@
 package logic.data.shipmodels;
 
 
-import logic.Point;
+import logic.Logs;
+import logic.data.exceptions.CrewFullException;
+import logic.data.geometry.Point;
 import logic.data.factories.OfficerFactory;
 import logic.data.movables.Drone;
 import logic.data.shipmodels.officers.*;
@@ -55,12 +57,16 @@ public class Ship {
     public void killOneCrewMember() {
         officers.get(officers.size() - 1).disableSystem();
         officers.remove(officers.size() - 1);
+        Logs.putLog("Crew member killed");
     }
 
-    public void hireOneCrewMember() {
+    public void hireOneCrewMember() throws CrewFullException {
         int position = officers.size();
-        //TODO EXCEPTION
-        if(position >= 6) return;
+        if(position >= 6) {
+            String errorMessage = "Crew full - can't hire new members";
+            Logs.putLog(errorMessage);
+            throw new CrewFullException(errorMessage);
+        }
         System system = null;
         switch(position){
             case 3:
@@ -74,6 +80,7 @@ public class Ship {
                 break;
         }
         officers.add(OfficerFactory.hireOfficer(position, system));
+        Logs.putLog("Crew member hired");
     }
 
     public Drone getDrone() {
@@ -81,7 +88,6 @@ public class Ship {
     }
 
     public boolean isOfficerAvailable(String officer) {
-
         for(Officer o : officers){
             if(o.getClass().getSimpleName().equals(officer)) return true;
         }

@@ -1,4 +1,4 @@
-package logic;
+package logic.data.geometry;
 
 public class Point {
     private int x;

@@ -1,8 +1,10 @@
 package logic.data.planetmodels;
 
-import logic.Point;
-import logic.data.exceptions.InsufficientResourcesException;
-import logic.data.exceptions.NoOfficerException;
+import logic.data.exceptions.CrewFullException;
+import logic.data.exceptions.NotEnoughResourcesException;
+import logic.data.exceptions.SystemDisabledException;
+import logic.data.exceptions.UpgradeMaxException;
+import logic.data.geometry.Point;
 import logic.data.movables.Drone;
 import logic.data.shipmodels.ResourceType;
 import logic.data.shipmodels.Ship;
@@ -15,25 +17,29 @@ public class SpaceStation{
         this.shipOnStation = shipOnStation;
     }
 
-    public void upgradeCargo() {
-       if(!shipOnStation.isOfficerAvailable("CargoOfficer")) return;
-       shipOnStation.getCargoSystem().payAllResources(1);
-       shipOnStation.getCargoSystem().upgradeCargoSystem();
+    public void upgradeCargo() throws NotEnoughResourcesException, SystemDisabledException, UpgradeMaxException {
+        try{
+           shipOnStation.getCargoSystem().upgradeCargoSystem();
+           shipOnStation.getCargoSystem().payAllResources(1);
+        }catch(SystemDisabledException e){
+
+        }
+
     }
 
 
-    public void convertResource(ResourceType toBeLost, ResourceType toBeGained) {
+    public void convertResource(ResourceType toBeLost, ResourceType toBeGained) throws NotEnoughResourcesException {
         shipOnStation.getCargoSystem().payResource(1, toBeLost);
         shipOnStation.getCargoSystem().addResource(1, toBeGained);
     }
 
-    public void hireCrew(){
+    public void hireCrew() throws NotEnoughResourcesException, CrewFullException {
         shipOnStation.getCargoSystem().payAllResources(1);
         shipOnStation.hireOneCrewMember();
     }
 
 
-    public void upgradeWeaponSystem() {
+    public void upgradeWeaponSystem() throws NotEnoughResourcesException, UpgradeMaxException {
         shipOnStation.getCargoSystem().payAllResources(3);
         shipOnStation.getWeaponSystem().upgradeWeaponSystem();
     }
