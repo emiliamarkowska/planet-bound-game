@@ -1,6 +1,8 @@
 package logic;
 
 import logic.data.movables.Resource;
+import logic.data.shipmodels.ResourceType;
+import logic.data.shipmodels.UsableResourceType;
 import logic.states.IState;
 import logic.states.AwaitShipSelectionState;
 
@@ -19,45 +21,65 @@ public class PlanetBound {
         return this.state;
     }
 
-    public void setState(IState state) {
+    private void setState(IState state) {
         this.state = state;
     }
 
-    public void chooseShip(boolean isMilitary) {
-        this.setState(this.state.chooseShip(isMilitary));
+    public PlanetBoundData getPlanetBoundData() {
+        return planetBoundData;
     }
 
-    public boolean isSpaceStationAvailable() {
-        return planetBoundData.getPlanet().hasSpaceStation();
+    //AVAILABLE FROM AwaitShipSelectionState
+
+    public void chooseShip(boolean isMiningShip) {
+        this.setState(this.state.chooseShip(isMiningShip));
     }
 
-    public void goToSpaceStation() {
-        this.setState(this.state.goToSpaceStation());
+    //AVAILABLE FROM AwaitMoveState
+
+    public void exploreSpaceStation() {
+        this.setState(this.state.exploreSpaceStation());
     }
+
+    public void explorePlanet() {
+        this.setState(this.state.explorePlanet());
+    }
+
+    public void lookForAnotherPlanet() {
+        this.setState(this.state.lookForAnotherPlanet());
+    }
+
+    //AVAILABLE FROM AwaitBuyState
 
     public void upgradeCargo() {
         this.setState(this.state.upgradeCargo());
     }
 
-    public void convertResource(Resource from, Resource to) {
-        this.setState(this.state.convertResource(from, to));
+    public void exchangeResource(ResourceType from, ResourceType to) {
+        this.setState(this.state.exchangeResource(from, to));
     }
 
-    public void hireCrew() {
+    public void addCrewMember() {
         this.setState(this.state.addCrewMember());
     }
 
-    public void upgradeWeaponSystem() {
+    public void upgradeWeapon() {
         this.setState(this.state.upgradeWeapon());
     }
 
-    public void replenishArmor() {
+    public void repairShip() {
         this.setState(this.state.repairShip());
     }
 
-    public void buyNewDrone() {
+    public void repairDrone() {
         this.setState(this.state.repairDrone());
     }
+
+    public void convertToShipResources(UsableResourceType type, int amount) {
+        this.setState(this.state.convertToShipResources(type, amount));
+    }
+
+    //AVAILABLE FROM AwaitFinishExplorationState
 
     public void goUp() {
         this.setState(this.state.goUp());
@@ -75,41 +97,16 @@ public class PlanetBound {
         this.setState(this.state.goRight());
     }
 
-    public void acceptReturn() {
-        this.setState(this.state.acceptReturn());
+    //AVAILABLE FROM AwaitBuyState, AwaitFinishExplorationState
+
+    public void exploreSpace() {
+        this.setState(this.state.exploreSpace());
     }
 
-    public void declineReturn() {
-        this.setState(this.state.declineReturn());
-    }
+    //AVAILABLE FROM GameOverState
 
-    public void goToNextRegion() {
-        this.setState(this.state.lookForAnotherPlanet());
-    }
-
-    public void explorePlanet() {
-        this.setState(this.state.goToPlanet());
-    }
-
-    public void playAgain() {
-        this.setState(this.state.playAgain());
-    }
-
-    public void produceAmmo(int amount) {
-        this.setState(this.state.produce("ammo", amount));
-    }
-
-    public void produceShield(int amount) {
-        this.setState(this.state.produce("shield", amount));
-    }
-
-    public void produceFuel(int amount) {
-        this.setState(this.state.produce("fuel", amount));
-    }
-
-
-    public PlanetBoundData getPlanetBoundData() {
-        return planetBoundData;
+    public void restartGame() {
+        this.setState(this.state.restartGame());
     }
 
 
