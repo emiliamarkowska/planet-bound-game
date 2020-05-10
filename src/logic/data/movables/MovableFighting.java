@@ -18,6 +18,14 @@ public class MovableFighting extends Movable {
 
     protected void decreaseHealth() {
         health--;
+        if (health == 0) isDead = true;
     }
 
+    public int getHealth() {
+        return health;
+    }
+
+    public boolean isDead() {
+        return isDead;
+    }
 }

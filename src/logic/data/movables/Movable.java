@@ -21,19 +21,23 @@ public class Movable {
         return position.equals(mov.position);
     }
 
-    protected void moveUp() {
+    public void moveUp() {
+        if (position.getY() == 1) return;
         position.setXY(position.getX(), position.getY() - 1);
     }
 
-    protected void moveDown() {
+    public void moveDown() {
+        if (position.getY() == 6) return;
         position.setXY(position.getX(), position.getY() + 1);
     }
 
-    protected void moveLeft() {
+    public void moveLeft() {
+        if (position.getX() == 1) return;
         position.setXY(position.getX() - 1, position.getY());
     }
 
-    protected void moveRight() {
+    public void moveRight() {
+        if (position.getX() == 6) return;
         position.setXY(position.getX() + 1, position.getY());
     }
 

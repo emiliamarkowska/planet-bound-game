@@ -13,7 +13,7 @@ public class Drone extends MovableFighting{
     }
 
     @Override
-    protected void fight(MovableFighting mov) {
+    public void fight(MovableFighting mov) {
         Alien alien = (Alien)mov;
         if (Randomizer.randomSuccessFraction(alien.getAlienType().getDeathChance(), 6)) alien.decreaseHealth();
     }

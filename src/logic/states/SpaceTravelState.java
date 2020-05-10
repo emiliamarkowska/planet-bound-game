@@ -2,7 +2,6 @@ package logic.states;
 
 import logic.Randomizer;
 import logic.GameData;
-import logic.data.Event;
 import logic.data.exceptions.GameException;
 import logic.data.exceptions.NoFuelException;
 
