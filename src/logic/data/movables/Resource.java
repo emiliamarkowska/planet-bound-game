@@ -1,9 +1,8 @@
 package logic.data.movables;
 
-import logic.Point;
+import logic.Logs;
+import logic.data.geometry.Point;
 import logic.data.shipmodels.ResourceType;
-
-import java.awt.geom.Point2D;
 
 public class Resource extends Movable{
     private ResourceType type;

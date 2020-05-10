@@ -1,7 +1,9 @@
 package logic;
 
+import logic.data.exceptions.NotAllowedMoveException;
 import logic.data.factories.AlienFactory;
 import logic.data.factories.ResourceFactory;
+import logic.data.geometry.Point;
 import logic.data.movables.Alien;
 import logic.data.movables.AlienTypes;
 import logic.data.movables.Drone;
@@ -27,29 +29,29 @@ public class ExplorationPhase {
         droneInitialPosition = new Point(Randomizer.randomInt(1, 6), Randomizer.randomInt(1, 6));
         drone.setPosition(droneInitialPosition);
         do {
-            alien = AlienFactory.createAlienWithRandomCoordinates(AlienTypes.getRandomAlienType());
+            alien = AlienFactory.createAlien(AlienTypes.getRandomAlienType());
             resource = ResourceFactory.createResource(planet.getResourceToBeMined(), new Point(Randomizer.randomInt(1, 6), Randomizer.randomInt(1, 6)));
         } while (drone.isWithingRange(alien) || drone.isWithingRange(resource) || alien.isWithingRange(resource));
 
 
     }
 
-    public void goUp(){
+    public void goUp() throws NotAllowedMoveException {
         drone.moveUp();
         checkForEvents();
     }
 
-    public void goDown(){
+    public void goDown() throws NotAllowedMoveException {
         drone.moveDown();
         checkForEvents();
     }
 
-    public void goLeft(){
+    public void goLeft() throws NotAllowedMoveException {
         drone.moveLeft();
         checkForEvents();
     }
 
-    public void goRight(){
+    public void goRight() throws NotAllowedMoveException {
         drone.moveRight();
         checkForEvents();
     }

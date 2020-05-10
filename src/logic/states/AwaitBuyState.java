@@ -2,7 +2,6 @@ package logic.states;
 
 import logic.PlanetBoundData;
 import logic.data.movables.Resource;
-import logic.data.exceptions.GameException;
 import logic.data.planetmodels.SpaceStation;
 import logic.data.shipmodels.ResourceType;
 import logic.data.shipmodels.UsableResourceType;

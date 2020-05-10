@@ -1,4 +1,6 @@
-package logic;
+package logic.data.geometry;
+
+import logic.data.geometry.Point;
 
 public class Vector {
     private Point startingPoint;

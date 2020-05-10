@@ -1,6 +1,7 @@
 package logic.data.movables;
 
-import logic.Point;
+import logic.Logs;
+import logic.data.geometry.Point;
 
 public class MovableFighting extends Movable {
 
@@ -17,8 +18,13 @@ public class MovableFighting extends Movable {
     protected void fight(MovableFighting mov) { }
 
     protected void decreaseHealth() {
+        if(isDead) return;
         health--;
-        if (health == 0) isDead = true;
+        Logs.putLog("Health decreased to " + health);
+        if (health == 0) {
+            Logs.putLog("Object is dead");
+            isDead = true;
+        }
     }
 
     public int getHealth() {

@@ -4,8 +4,6 @@ import logic.Randomizer;
 import logic.PlanetBoundData;
 import logic.data.events.IEvent;
 import logic.data.events.WormholeHelper;
-import logic.data.exceptions.GameException;
-import logic.data.exceptions.NoFuelException;
 import logic.data.factories.EventFactory;
 
 public class AwaitMoveState extends StateAdapter {

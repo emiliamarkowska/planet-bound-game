@@ -1,5 +1,6 @@
 package logic.data.shipmodels.officers;
 
+import logic.Logs;
 import logic.data.shipmodels.systems.ShieldSystem;
 
 public class ShieldOfficer extends Officer {
@@ -12,9 +13,11 @@ public class ShieldOfficer extends Officer {
     @Override
     public void disableSystem(){
         this.shieldSystem.setEnabled(false);
+        Logs.putLog("Shield system disabled");
     }
 
     public void enableSystem(){
         this.shieldSystem.setEnabled(true);
+        Logs.putLog("Shield system enabled");
     }
 }
