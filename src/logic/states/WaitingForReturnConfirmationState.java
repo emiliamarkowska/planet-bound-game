@@ -1,6 +1,6 @@
 package logic.states;
 
-import logic.Dice;
+import logic.Randomizer;
 import logic.GameData;
 import logic.data.exceptions.NoFuelException;
 import logic.data.shipmodels.ResourceType;
@@ -24,7 +24,7 @@ public class WaitingForReturnConfirmationState extends StateAdapter {
         if(!getGameData().getExLogic().isResourceInDrone()) return new SpaceTravelState(getGameData());
 
         if(getGameData().getExLogic().getResource().getResourceType() != ResourceType.PINK){
-                int amountOfResource = Dice.throwd6();
+                int amountOfResource = Randomizer.throwd6();
             switch (getGameData().getExLogic().getResource().getResourceType()) {
                 case BLACK:
                     getGameData().getShip().getCargoSystem().addBlackResource(amountOfResource);

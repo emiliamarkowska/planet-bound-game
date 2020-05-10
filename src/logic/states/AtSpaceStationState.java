@@ -1,9 +1,8 @@
 package logic.states;
 
 import logic.GameData;
-import logic.data.Resource;
+import logic.data.movables.Resource;
 import logic.data.exceptions.GameException;
-import logic.data.exceptions.NoOfficerException;
 import logic.data.planetmodels.SpaceStation;
 
 public class AtSpaceStationState extends StateAdapter {

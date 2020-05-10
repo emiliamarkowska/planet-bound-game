@@ -1,7 +1,6 @@
 package logic.states;
 
-import logic.data.Resource;
-import logic.data.shipmodels.Ship;
+import logic.data.movables.Resource;
 
 public interface IState {
     IState selectShip(boolean isMilitary);

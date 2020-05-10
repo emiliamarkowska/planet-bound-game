@@ -1,59 +1,56 @@
 package logic.data.planetmodels;
 
-import logic.data.Resource;
+import logic.Randomizer;
+import logic.data.movables.Resource;
 import logic.data.shipmodels.ResourceType;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Random;
 
 public class Planet {
-    PlanetType planetType;
-    ArrayList<Resource> resources;
-    SpaceStation spaceStation;
-    Resource availableResource;
+    PlanetsResourcesList planetInfo;
+    ArrayList<ResourceType> resourcesOnPlanet;
+    boolean hasSpaceStation;
+    ResourceType minedResource;
 
-    public Planet(PlanetType planetType, boolean hasSpaceStation){
-        this.planetType = planetType;
-        this.resources = ResourceToPlanetMap.getResourcesForPlanetType(planetType);
-        if(hasSpaceStation) this.spaceStation = new SpaceStation();
-        else this.spaceStation = null;
+    public Planet(PlanetsResourcesList planetInfo, boolean hasSpaceStation){
+        this.planetInfo = planetInfo;
+        this.resourcesOnPlanet = new ArrayList<>(Arrays.asList(planetInfo.getValue()));
+        this.hasSpaceStation = hasSpaceStation;
     }
 
-    public PlanetType getPlanetType() {
-        return planetType;
+    public PlanetsResourcesList getPlanetInfo() {
+        return planetInfo;
     }
 
-    public ArrayList<Resource> getResources() {
-        return resources;
+    public ArrayList<ResourceType> getResources() {
+        return resourcesOnPlanet;
     }
 
     public void deleteResource(ResourceType resourceType){
-        for (Resource r : resources) {
-            if(r.getResourceType() == resourceType)
-                resources.remove(r);
+        for (ResourceType r : resourcesOnPlanet) {
+            if(r == resourceType)
+                resourcesOnPlanet.remove(r);
         }
     }
 
     public boolean hasSpaceStation(){
-        if(spaceStation == null) return false;
-        return true;
+        return hasSpaceStation;
     }
 
-    public SpaceStation getSpaceStation() {
-        return spaceStation;
+    public ResourceType getResourceToBeMined() {
+        int randomIndex = Randomizer.randomInt(0, resourcesOnPlanet.size() - 1);
+        minedResource = resourcesOnPlanet.get(randomIndex);
+        return minedResource;
     }
 
-    public Resource getRandomResource() {
-        int randomIndex = (int) (Math.random() * resources.size());
-        availableResource = resources.get(randomIndex);
-        return availableResource;
-    }
-
-    public void deleteRandomResource() {
-        resources.remove(availableResource);
+    public void deleteMinedResource() {
+        resourcesOnPlanet.remove(minedResource);
     }
 
     public boolean hasResources(){
-        if(resources.size() == 0) return false;
+        if(resourcesOnPlanet.size() == 0) return false;
         return true;
     }
 }

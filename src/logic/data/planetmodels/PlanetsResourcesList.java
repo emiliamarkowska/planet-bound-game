@@ -1,10 +1,7 @@
 package logic.data.planetmodels;
 
-import logic.data.Resource;
+import logic.Randomizer;
 import logic.data.shipmodels.ResourceType;
-
-import java.util.Arrays;
-import java.util.List;
 
 public enum PlanetsResourcesList {
     BLACK(ResourceType.BLUE, ResourceType.BLACK),
@@ -29,5 +26,20 @@ public enum PlanetsResourcesList {
             s += r + " ";
         }
         return s;
+    }
+
+    public static PlanetsResourcesList getRandomPlanet(){
+        int option = Randomizer.randomInt(1, 4);
+        switch(option){
+            case 1:
+                return BLACK;
+            case 2:
+                return GREEN;
+            case 3:
+                return RED;
+            case 4:
+                return BLUE;
+        }
+        return null;
     }
 }

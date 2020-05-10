@@ -1,11 +1,10 @@
 package logic.states;
 
-import logic.Dice;
+import logic.Randomizer;
 import logic.GameData;
 import logic.data.Event;
 import logic.data.exceptions.GameException;
 import logic.data.exceptions.NoFuelException;
-import logic.data.shipmodels.Ship;
 
 public class SpaceTravelState extends StateAdapter {
     public SpaceTravelState(GameData gameData) {
@@ -76,7 +75,7 @@ public class SpaceTravelState extends StateAdapter {
     }
 
     private void travelCost() throws NoFuelException {
-        int probability = Dice.throwd8();
+        int probability = Randomizer.throwd8();
         if(probability == 1) {
             getGameData().getLogRecorder().addLog("You have entered wormhole.");
             if(!getGameData().getShip().isShieldOfficerAvailable()){

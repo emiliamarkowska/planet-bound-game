@@ -1,114 +1,95 @@
 package logic.data.shipmodels;
 
 
-public class Ship {
-    private FuelSystem fuelSystem;
-    private CargoSystem cargoSystem;
-    private WeaponSystem weaponSystem;
-    private ShieldSystem shieldSystem;
-    private ResourceConverter resourceConverter;
+import logic.Point;
+import logic.data.factories.OfficerFactory;
+import logic.data.movables.Drone;
+import logic.data.shipmodels.officers.*;
+import logic.data.shipmodels.systems.CargoSystem;
+import logic.data.shipmodels.systems.FuelSystem;
+import logic.data.shipmodels.systems.ShieldSystem;
+import logic.data.shipmodels.systems.System;
+import logic.data.shipmodels.systems.WeaponSystem;
 
+import java.util.ArrayList;
+
+public class Ship {
+    private CargoSystem cargoSystem;
+    private FuelSystem fuelSystem;
+    private ShieldSystem shieldSystem;
+    private WeaponSystem weaponSystem;
+    private ArrayList<Officer> officers;
     private Drone drone;
 
-    private int amountOfArtifacts;
-
-    private int crewAmount;
-
-
-    public Ship(FuelSystem fuelSystem, CargoSystem cargoSystem, WeaponSystem weaponSystem, ShieldSystem shieldSystem) {
-        this.fuelSystem = fuelSystem;
+    public Ship(CargoSystem cargoSystem, FuelSystem fuelSystem, ShieldSystem shieldSystem, WeaponSystem weaponSystem) {
         this.cargoSystem = cargoSystem;
-        this.weaponSystem = weaponSystem;
+        this.fuelSystem = fuelSystem;
         this.shieldSystem = shieldSystem;
+        this.weaponSystem = weaponSystem;
 
-        amountOfArtifacts = 0;
-        crewAmount = 6;
+        this.officers = new ArrayList<>();
+        officers.add(new Captain());
+        officers.add(new NaviagtionOfficer());
+        officers.add(new ExplorationOfficer());
+        officers.add(new ShieldOfficer(this.shieldSystem));
+        officers.add(new WeaponOfficer(this.weaponSystem));
+        officers.add(new CargoOfficer(this.cargoSystem));
 
-        drone = new Drone();
-        resourceConverter = new ResourceConverter(this);
-    }
-
-    public FuelSystem getFuelSystem() {
-        return fuelSystem;
+        drone = new Drone(new Point(0, 0));
     }
 
     public CargoSystem getCargoSystem() {
-        return cargoSystem;
+        return this.cargoSystem;
     }
-
-    public WeaponSystem getWeaponSystem() {
-        return weaponSystem;
+    public FuelSystem getFuelSystem() {
+        return this.fuelSystem;
     }
-
     public ShieldSystem getShieldSystem() {
-        return shieldSystem;
+        return this.shieldSystem;
+    }
+    public WeaponSystem getWeaponSystem() {
+        return this.weaponSystem;
     }
 
-    public int getAmountOfArtifacts() {
-        return amountOfArtifacts;
-    }
-
-    public int getCrewAmount() {
-        return crewAmount;
-    }
 
     public void killOneCrewMember() {
-        crewAmount--;
-        switch (crewAmount){
-            case 5:
-                getCargoSystem().setAvailable(false);
-                break;
-            case 4:
-                getWeaponSystem().setAvailable(false);
-                break;
-            case 3:
-                getShieldSystem().setAvailable(false);
-        }
+        officers.get(officers.size() - 1).disableSystem();
+        officers.remove(officers.size() - 1);
     }
 
     public void hireOneCrewMember() {
-        if (crewAmount < 6) crewAmount++;
+        int position = officers.size();
+        //TODO EXCEPTION
+        if(position >= 6) return;
+        System system = null;
+        switch(position){
+            case 3:
+                system = this.shieldSystem;
+                break;
+            case 4:
+                system = this.weaponSystem;
+                break;
+            case 5:
+                system = this.cargoSystem;
+                break;
+        }
+        officers.add(OfficerFactory.hireOfficer(position, system));
     }
 
     public Drone getDrone() {
         return drone;
     }
 
-    public void addArtifact(){
-        this.amountOfArtifacts++;
-    }
+    public boolean isOfficerAvailable(String officer) {
 
-    public boolean isCargoOfficerAvailable(){
-        if(crewAmount > 5) return true;
+        for(Officer o : officers){
+            if(o.getClass().getSimpleName().equals(officer)) return true;
+        }
         return false;
     }
 
-    public boolean isWeaponOfficerAvailable(){
-        if(crewAmount > 4)return true;
-        return false;
+    public void setDrone(Drone drone){
+        this.drone = new Drone(new Point(0, 0));
     }
 
-    public boolean isShieldOfficerAvailable(){
-        if(crewAmount > 3) return true;
-        return false;
-    }
-
-    public boolean isExplorationOfficerAvailable(){
-        if(crewAmount > 2) return  true;
-        return false;
-    }
-
-    public boolean isNavigationOfficerAvailable(){
-        if(crewAmount > 1) return true;
-        return false;
-    }
-
-    public boolean isCaptainAvailable(){
-        if(crewAmount > 0) return true;
-        return false;
-    }
-
-    public ResourceConverter getResourceConverter() {
-        return resourceConverter;
-    }
 }

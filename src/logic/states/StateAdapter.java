@@ -1,8 +1,7 @@
 package logic.states;
 
 import logic.GameData;
-import logic.data.Resource;
-import logic.data.shipmodels.Ship;
+import logic.data.movables.Resource;
 
 public class StateAdapter implements IState {
 

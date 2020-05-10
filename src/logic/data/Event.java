@@ -1,6 +1,6 @@
 package logic.data;
 
-import logic.Dice;
+import logic.Randomizer;
 import logic.data.exceptions.NoFuelException;
 import logic.data.shipmodels.ResourceType;
 import logic.data.shipmodels.Ship;
@@ -30,13 +30,13 @@ public class Event {
                 logRecorder.addLog("A crew member has died due to a system malfunction.");
                 break;
             case SALVAGE_SHIP:
-                int amount = Dice.throwd6();
+                int amount = Randomizer.throwd6();
                 ResourceType rt = ship.getCargoSystem().addRandomResource(amount);
                 logRecorder.addLog("Your ship came across an abandoned ship and found " + amount + " " + rt + " resource.");
                 break;
             case CARGO_LOSS:
                 int rand = ThreadLocalRandom.current().nextInt(0, 3);
-                int amount2 = Dice.throwd3();
+                int amount2 = Randomizer.throwd3();
                 switch (rand) {
                     case 0:
                         ship.getCargoSystem().loseBlackResource(amount2);

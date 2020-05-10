@@ -2,7 +2,7 @@ package gui;
 
 import logic.GameLogic;
 import logic.data.Log;
-import logic.data.Resource;
+import logic.data.movables.Resource;
 import logic.data.shipmodels.ResourceType;
 import logic.states.*;
 

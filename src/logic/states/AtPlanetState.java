@@ -1,7 +1,6 @@
 package logic.states;
 
 import logic.GameData;
-import logic.PlanetExplorationLogic;
 
 public class AtPlanetState extends StateAdapter {
 

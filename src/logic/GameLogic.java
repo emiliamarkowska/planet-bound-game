@@ -1,8 +1,6 @@
 package logic;
 
-import logic.data.Resource;
-import logic.data.shipmodels.MilitaryShip;
-import logic.data.shipmodels.Ship;
+import logic.data.movables.Resource;
 import logic.states.IState;
 import logic.states.ShipSelectionState;
 
