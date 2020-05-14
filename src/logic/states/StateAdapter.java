@@ -1,10 +1,7 @@
 package logic.states;
 
 import logic.PlanetBoundData;
-import logic.data.exceptions.CrewFullException;
-import logic.data.exceptions.NotEnoughResourcesException;
-import logic.data.exceptions.SystemDisabledException;
-import logic.data.exceptions.UpgradeMaxException;
+import logic.data.exceptions.*;
 import logic.data.shipmodels.ResourceType;
 import logic.data.shipmodels.UsableResourceType;
 
@@ -60,12 +57,12 @@ public class StateAdapter implements IState {
     }
 
     @Override
-    public IState repairShip() {
+    public IState repairShip() throws NotEnoughResourcesException {
         return this;
     }
 
     @Override
-    public IState repairDrone() {
+    public IState repairDrone() throws NotEnoughResourcesException {
         return this;
     }
 
@@ -76,22 +73,22 @@ public class StateAdapter implements IState {
 
     //AVAILABLE FROM AwaitFinishExplorationState
     @Override
-    public IState goUp() {
+    public IState goUp() throws NotAllowedMoveException {
         return this;
     }
 
     @Override
-    public IState goDown() {
+    public IState goDown() throws NotAllowedMoveException {
         return this;
     }
 
     @Override
-    public IState goLeft() {
+    public IState goLeft() throws NotAllowedMoveException {
         return this;
     }
 
     @Override
-    public IState goRight() {
+    public IState goRight() throws NotAllowedMoveException {
         return this;
     }
 

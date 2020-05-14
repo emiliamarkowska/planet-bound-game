@@ -13,8 +13,8 @@ public class AwaitShipSelectionState extends StateAdapter {
 
     @Override
     public IState chooseShip(boolean isMiningShip){
-        if (isMiningShip)getPlanetBoundData().setShip(new MilitaryShip());
-        else getPlanetBoundData().setShip(new MilitaryShip());
+        if (isMiningShip)getPlanetBoundData().setShip(new MilitaryShip(getPlanetBoundData().getLogs()));
+        else getPlanetBoundData().setShip(new MilitaryShip(getPlanetBoundData().getLogs()));
         return new AwaitMoveState(getPlanetBoundData());
     }
 

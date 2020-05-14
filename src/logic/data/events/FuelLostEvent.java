@@ -6,8 +6,8 @@ import logic.data.shipmodels.Ship;
 
 public class FuelLostEvent implements IEvent {
     @Override
-    public void run(Ship ship) throws NotEnoughFuelException {
-        Logs.putLog("Event - You accidentally use too much fuel in a test run. Remove 1 fuel cell.");
+    public void run(Ship ship, Logs logs) throws NotEnoughFuelException {
+        logs.putLog("Event - You accidentally use too much fuel in a test run. Remove 1 fuel cell.");
         ship.getFuelSystem().subtractFuel(1);
     }
 }

@@ -7,14 +7,14 @@ import logic.data.shipmodels.ResourceType;
 public class Resource extends Movable{
     private ResourceType type;
 
-    public Resource(Resource copy){
-        super(copy.position);
+    public Resource(Resource copy, Logs logs){
+        super(copy.position, logs);
         this.type = copy.getResourceType();
 
     }
 
-    public Resource(ResourceType resourceType, Point position) {
-        super(position);
+    public Resource(ResourceType resourceType, Point position, Logs logs) {
+        super(position, logs);
         this.type = resourceType;
     }
 

@@ -22,22 +22,24 @@ public class Ship {
     private WeaponSystem weaponSystem;
     private ArrayList<Officer> officers;
     private Drone drone;
+    protected Logs logs;
 
-    public Ship(CargoSystem cargoSystem, FuelSystem fuelSystem, ShieldSystem shieldSystem, WeaponSystem weaponSystem) {
+    public Ship(CargoSystem cargoSystem, FuelSystem fuelSystem, ShieldSystem shieldSystem, WeaponSystem weaponSystem, Logs logs) {
+        this.logs = logs;
         this.cargoSystem = cargoSystem;
         this.fuelSystem = fuelSystem;
         this.shieldSystem = shieldSystem;
         this.weaponSystem = weaponSystem;
 
         this.officers = new ArrayList<>();
-        officers.add(new Captain());
-        officers.add(new NaviagtionOfficer());
-        officers.add(new ExplorationOfficer());
-        officers.add(new ShieldOfficer(this.shieldSystem));
-        officers.add(new WeaponOfficer(this.weaponSystem));
-        officers.add(new CargoOfficer(this.cargoSystem));
+        officers.add(new Captain(logs));
+        officers.add(new NaviagtionOfficer(logs));
+        officers.add(new ExplorationOfficer(logs));
+        officers.add(new ShieldOfficer(this.shieldSystem, logs));
+        officers.add(new WeaponOfficer(this.weaponSystem, logs));
+        officers.add(new CargoOfficer(this.cargoSystem, logs));
 
-        drone = new Drone(new Point(0, 0));
+        drone = new Drone(new Point(0, 0), logs);
     }
 
     public CargoSystem getCargoSystem() {
@@ -57,14 +59,14 @@ public class Ship {
     public void killOneCrewMember() {
         officers.get(officers.size() - 1).disableSystem();
         officers.remove(officers.size() - 1);
-        Logs.putLog("Crew member killed");
+        logs.putLog("Crew member killed");
     }
 
     public void hireOneCrewMember() throws CrewFullException {
         int position = officers.size();
         if(position >= 6) {
             String errorMessage = "Crew full - can't hire new members";
-            Logs.putLog(errorMessage);
+            logs.putLog(errorMessage);
             throw new CrewFullException(errorMessage);
         }
         System system = null;
@@ -79,8 +81,8 @@ public class Ship {
                 system = this.cargoSystem;
                 break;
         }
-        officers.add(OfficerFactory.hireOfficer(position, system));
-        Logs.putLog("Crew member hired");
+        officers.add(OfficerFactory.hireOfficer(position, system, logs));
+        logs.putLog("Crew member hired");
     }
 
     public Drone getDrone() {
@@ -95,7 +97,14 @@ public class Ship {
     }
 
     public void setDrone(Drone drone){
-        this.drone = new Drone(new Point(0, 0));
+        this.drone = new Drone(new Point(0, 0), logs);
     }
 
+    public Logs getLogs() {
+        return logs;
+    }
+
+    public ArrayList<Officer> getOfficers() {
+        return officers;
+    }
 }

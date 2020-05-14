@@ -46,13 +46,13 @@ public class AwaitBuyState extends StateAdapter {
     }
 
     @Override
-    public IState repairShip() {
+    public IState repairShip() throws NotEnoughResourcesException {
         spaceStation.fillShield();
         return this;
     }
 
     @Override
-    public IState repairDrone() {
+    public IState repairDrone() throws NotEnoughResourcesException {
         spaceStation.buyNewDrone();
         return this;
     }

@@ -6,44 +6,46 @@ import logic.data.exceptions.UpgradeMaxException;
 
 public class WeaponSystem extends System {
     private int ammo;
+    private Logs logs;
 
-    public WeaponSystem(boolean isMining) {
+    public WeaponSystem(boolean isMining, Logs logs) {
         super(isMining);
         this.maxAmount = 9;
         this.ammo = this.maxAmount;
+        this.logs = logs;
     }
 
     public void addAmmo(int amount){
         int amountAdded = amount;
         if(maxAmount - ammo < amount) amount = maxAmount - amount;
         ammo += amountAdded;
-        Logs.putLog(amountAdded + "ammo cells added");
+        logs.putLog(amountAdded + "ammo cells added");
     }
 
     public void loseAmmo(int amount) throws NotEnoughAmmoException {
         if(!isAmmoEnough(amount)){
             String errorMessage = "Not enough ammo - can't be used.";
-            Logs.putLog(errorMessage);
+            logs.putLog(errorMessage);
             throw new NotEnoughAmmoException(errorMessage);
         }
         ammo -= amount;
-        Logs.putLog("Ammo in amount of " + amount + " lost");
+        logs.putLog("Ammo in amount of " + amount + " lost");
     }
 
     public void upgradeWeaponSystem() throws UpgradeMaxException {
         if (!isMiningShip && this.maxAmount == 18) {
             String errorMessage = "Military ship max weapon upgrade reached - can't upgrade";
-            Logs.putLog(errorMessage);
+            logs.putLog(errorMessage);
             throw new UpgradeMaxException(errorMessage);
         }
         if (isMiningShip) {
             String errorMessage = "Mining ship can't have weapon system upgraded.";
-            Logs.putLog(errorMessage);
+            logs.putLog(errorMessage);
             throw new UpgradeMaxException(errorMessage);
         }
         this.maxAmount += 9;
         this.ammo = this.maxAmount;
-        Logs.putLog("Weapon system upgraded and full");
+        logs.putLog("Weapon system upgraded and full");
     }
 
     public int getAmmo() {

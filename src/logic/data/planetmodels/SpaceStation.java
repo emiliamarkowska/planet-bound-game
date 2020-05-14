@@ -1,5 +1,6 @@
 package logic.data.planetmodels;
 
+import logic.Logs;
 import logic.data.exceptions.CrewFullException;
 import logic.data.exceptions.NotEnoughResourcesException;
 import logic.data.exceptions.SystemDisabledException;
@@ -13,9 +14,11 @@ import logic.data.shipmodels.UsableResourceType;
 public class SpaceStation{
 
     private Ship shipOnStation;
+    private Logs logs;
 
-    public SpaceStation(Ship shipOnStation){
+    public SpaceStation(Ship shipOnStation, Logs logs){
         this.shipOnStation = shipOnStation;
+        this.logs = logs;
     }
 
     public void upgradeCargo() throws NotEnoughResourcesException, SystemDisabledException, UpgradeMaxException {
@@ -41,14 +44,14 @@ public class SpaceStation{
         shipOnStation.getWeaponSystem().upgradeWeaponSystem();
     }
 
-    public void fillShield() {
-        //TODO: płatność
+    public void fillShield() throws NotEnoughResourcesException {
+        shipOnStation.getCargoSystem().payAllResources(1);
         shipOnStation.getShieldSystem().fillShield();
     }
 
-    public void buyNewDrone() {
-        //TODO: płatność
-        shipOnStation.setDrone(new Drone(new Point(0,0)));
+    public void buyNewDrone() throws NotEnoughResourcesException {
+        shipOnStation.getCargoSystem().payAllResources(3);
+        shipOnStation.setDrone(new Drone(new Point(0,0), logs));
     }
 
     public void convertToShipResources(UsableResourceType type, int amount) throws NotEnoughResourcesException {

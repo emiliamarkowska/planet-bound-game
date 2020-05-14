@@ -15,8 +15,9 @@ public class CargoSystem extends System {
     private int greenAmount;
     private int blackAmount;
     private int artifacts;
+    private Logs logs;
 
-    public CargoSystem(boolean isMining) {
+    public CargoSystem(boolean isMining, Logs logs) {
         super(isMining);
 
         this.maxAmount = 6;
@@ -27,6 +28,7 @@ public class CargoSystem extends System {
         this.blackAmount = 0;
 
         this.artifacts = 0;
+        this.logs = logs;
     }
 
     public int getRedAmount() {
@@ -62,7 +64,6 @@ public class CargoSystem extends System {
         if (!canBeResourcePaid(resourceType, amount)) {
             String errorMessage = "Not enough amount of " + resourceType.toString() + " resource to pay. Tried to pay " + amount +
                     " having only " + getAmount(resourceType) + ".";
-            Logs.putLog(errorMessage);
             throw new NotEnoughResourcesException(errorMessage);
         }
         switch (resourceType) {
@@ -79,7 +80,7 @@ public class CargoSystem extends System {
                 greenAmount -= amount;
                 break;
         }
-        Logs.putLog(resourceType + " resource spend in amount of: " + amount);
+        logs.putLog(resourceType + " resource spend in amount of: " + amount);
     }
     public void payAllResources (int amount) throws NotEnoughResourcesException {
         if(!canBeResourcePaid(ResourceType.RED, amount) || !canBeResourcePaid(ResourceType.BLUE, amount)
@@ -91,7 +92,7 @@ public class CargoSystem extends System {
         payResource(amount, ResourceType.BLUE);
         payResource(amount, ResourceType.GREEN);
         payResource(amount, ResourceType.BLACK);
-        Logs.putLog("All resources paid in amount: " + amount + " of each resource");
+        logs.putLog("All resources paid in amount: " + amount + " of each resource");
     }
 
     public void addResource(int amount, ResourceType resourceType) {
@@ -116,7 +117,7 @@ public class CargoSystem extends System {
                 artifacts += 1;
                 break;
         }
-        Logs.putLog(resourceType + " resource added in amount of: " + amount);
+        logs.putLog(resourceType + " resource added in amount of: " + amount);
     }
 
 
@@ -152,24 +153,24 @@ public class CargoSystem extends System {
                 else blackAmount -= amount;
                 break;
         }
-        Logs.putLog(resourceType + "resource lost in amount of: " + amount);
+        logs.putLog(resourceType + "resource lost in amount of: " + amount);
     }
 
 
     public void upgradeCargoSystem() throws SystemDisabledException, UpgradeMaxException {
         if(!isEnabled) {
             String errorMessage = "Can't upgrade - cargo system is disabled";
-            Logs.putLog(errorMessage);
+            logs.putLog(errorMessage);
             throw new SystemDisabledException(errorMessage);
         }
         if (!isMiningShip && maxAmount == 12) {
             String errorMessage = "Military ship upgrade max reached - can't upgrade";
-            Logs.putLog(errorMessage);
+            logs.putLog(errorMessage);
             throw new UpgradeMaxException(errorMessage);
         }
         if (isMiningShip && maxAmount == 24) {
             String errorMessage = "Mining ship upgrade max reached - can't upgrade";
-            Logs.putLog(errorMessage);
+            logs.putLog(errorMessage);
             throw new UpgradeMaxException(errorMessage);
         }
         maxAmount += 6;

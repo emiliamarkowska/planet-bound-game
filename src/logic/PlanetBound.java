@@ -1,9 +1,6 @@
 package logic;
 
-import logic.data.exceptions.CrewFullException;
-import logic.data.exceptions.NotEnoughResourcesException;
-import logic.data.exceptions.SystemDisabledException;
-import logic.data.exceptions.UpgradeMaxException;
+import logic.data.exceptions.*;
 import logic.data.movables.Resource;
 import logic.data.shipmodels.ResourceType;
 import logic.data.shipmodels.UsableResourceType;
@@ -14,11 +11,12 @@ public class PlanetBound {
 
     private IState state;
     private PlanetBoundData planetBoundData;
+    private Logs logs;
 
     public PlanetBound() {
         planetBoundData = new PlanetBoundData();
         state = new AwaitShipSelectionState(planetBoundData);
-
+        logs = planetBoundData.getLogs();
     }
 
     public IState getState() {
@@ -59,64 +57,101 @@ public class PlanetBound {
         try{
             this.setState(this.state.upgradeCargo());
         } catch (UpgradeMaxException e) {
-            Logs.putLog(e.getMessage());
+            logs.putLog(e.getMessage());
         } catch (NotEnoughResourcesException e) {
-            Logs.putLog(e.getMessage());
+            logs.putLog(e.getMessage());
         } catch (SystemDisabledException e) {
-            Logs.putLog(e.getMessage());
+            logs.putLog(e.getMessage());
         }
     }
 
-    public void exchangeResource(ResourceType from, ResourceType to) throws NotEnoughResourcesException {
+    public void exchangeResource(ResourceType from, ResourceType to){
         try{
             this.setState(this.state.exchangeResource(from, to));
         } catch (NotEnoughResourcesException e) {
-            Logs.putLog(e.getMessage());
+            logs.putLog(e.getMessage());
         }
     }
 
-    public void addCrewMember() throws NotEnoughResourcesException, CrewFullException {
+    public void addCrewMember(){
         try{
             this.setState(this.state.addCrewMember());
         } catch (NotEnoughResourcesException e) {
-            Logs.putLog(e.getMessage());
+            logs.putLog(e.getMessage());
         } catch (CrewFullException e) {
-            Logs.putLog(e.getMessage());
+            logs.putLog(e.getMessage());
         }
     }
 
-    public void upgradeWeapon() {
-        this.setState(this.state.upgradeWeapon());
+    public void upgradeWeapon(){
+        try{
+            this.setState(this.state.upgradeWeapon());
+        } catch (NotEnoughResourcesException e) {
+            logs.putLog(e.getMessage());
+        } catch (UpgradeMaxException e) {
+            logs.putLog(e.getMessage());
+        }
+
+
     }
 
-    public void repairShip() {
-        this.setState(this.state.repairShip());
+    public void repairShip(){
+        try{
+            this.setState(this.state.repairShip());
+        } catch (NotEnoughResourcesException e) {
+            logs.putLog(e.getMessage());
+        }
     }
 
-    public void repairDrone() {
-        this.setState(this.state.repairDrone());
+    public void repairDrone(){
+        try {
+            this.setState(this.state.repairDrone());
+        } catch (NotEnoughResourcesException e) {
+            logs.putLog(e.getMessage());
+        }
+
     }
 
     public void convertToShipResources(UsableResourceType type, int amount) {
-        this.setState(this.state.convertToShipResources(type, amount));
+        try {
+            this.setState(this.state.convertToShipResources(type, amount));
+        } catch (NotEnoughResourcesException e) {
+            logs.putLog(e.getMessage());
+        }
     }
 
     //AVAILABLE FROM AwaitFinishExplorationState
 
     public void goUp() {
-        this.setState(this.state.goUp());
+        try {
+            this.setState(this.state.goUp());
+        } catch (NotAllowedMoveException e) {
+            logs.putLog(e.getMessage());
+        }
     }
 
     public void goDown() {
-        this.setState(this.state.goDown());
+        try {
+            this.setState(this.state.goDown());
+        } catch (NotAllowedMoveException e) {
+            logs.putLog(e.getMessage());
+        }
     }
 
     public void goLeft() {
-        this.setState(this.state.goLeft());
+        try {
+            this.setState(this.state.goLeft());
+        } catch (NotAllowedMoveException e) {
+            logs.putLog(e.getMessage());
+        }
     }
 
     public void goRight() {
-        this.setState(this.state.goRight());
+        try {
+            this.setState(this.state.goRight());
+        } catch (NotAllowedMoveException e) {
+            logs.putLog(e.getMessage());
+        }
     }
 
     //AVAILABLE FROM AwaitBuyState, AwaitFinishExplorationState

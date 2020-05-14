@@ -10,13 +10,11 @@ public class PlanetBoundData {
     private Ship ship;
     private Planet planet;
     private SpaceStation spaceStation;
-    private ExplorationPhase explorationPhase;
-    private LogRecorder logRecorder;
+    private Logs logs;
 
     PlanetBoundData() {
         ship = null;
-        generateNextPlanet();
-        logRecorder = new LogRecorder();
+        logs = new Logs();
     }
 
     public Ship getShip() {
@@ -25,22 +23,22 @@ public class PlanetBoundData {
 
     public void setShip(Ship ship) {
         this.ship = ship;
-        spaceStation = new SpaceStation(ship);
+        spaceStation = new SpaceStation(ship, getLogs());
     }
 
     public Planet getPlanet() {
         return planet;
     }
 
-    public LogRecorder getLogRecorder() {
-        return logRecorder;
-    }
-
     public void generateNextPlanet() {
-        planet = PlanetFactory.createRandomPlanet();
+        planet = PlanetFactory.createRandomPlanet(logs);
     }
 
     public SpaceStation getSpaceStation() {
         return spaceStation;
+    }
+
+    public Logs getLogs() {
+        return logs;
     }
 }

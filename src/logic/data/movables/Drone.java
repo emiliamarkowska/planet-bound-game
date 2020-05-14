@@ -6,8 +6,8 @@ import logic.Randomizer;
 
 public class Drone extends MovableFighting{
 
-    public Drone(Point position) {
-        super(position, 6);
+    public Drone(Point position, Logs logs) {
+        super(position, 6, logs);
 
     }
 
@@ -15,10 +15,10 @@ public class Drone extends MovableFighting{
     public void fight(MovableFighting mov) {
         Alien alien = (Alien)mov;
         if (Randomizer.randomSuccessFraction(alien.getAlienType().getDeathChance(), 6)){
-            Logs.putLog("Drone shot - alien killed");
+            logs.putLog("Drone shot - alien killed");
             alien.decreaseHealth();
         }
-        else Logs.putLog("Drone shot - missed");
+        else logs.putLog("Drone shot - missed");
     }
 
 

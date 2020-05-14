@@ -9,17 +9,17 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class PlanetFactory {
 
-    public static Planet createPlanet(PlanetsResourcesList planetInfo, boolean hasSpaceStation) {
-        return new Planet(planetInfo, hasSpaceStation);
+    public static Planet createPlanet(PlanetsResourcesList planetInfo, boolean hasSpaceStation, Logs logs) {
+        return new Planet(planetInfo, hasSpaceStation, logs);
     }
 
-    public static Planet createRandomPlanet() {
+    public static Planet createRandomPlanet(Logs logs) {
         if (Randomizer.randomSuccess(30)) {
-            Logs.putLog("Planet with space station created");
-            return new Planet(PlanetsResourcesList.getRandomPlanet(), true);
+            logs.putLog("Planet with space station created");
+            return new Planet(PlanetsResourcesList.getRandomPlanet(), true, logs);
         }
-        Logs.putLog("Planet without space station created");
-        return new Planet(PlanetsResourcesList.getRandomPlanet(), false);
+        logs.putLog("Planet without space station created");
+        return new Planet(PlanetsResourcesList.getRandomPlanet(), false, logs);
 
 
     }

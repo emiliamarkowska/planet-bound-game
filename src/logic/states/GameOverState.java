@@ -13,4 +13,8 @@ public class GameOverState extends StateAdapter {
     public IState restartGame() {
         return new AwaitShipSelectionState(getPlanetBoundData());
     }
+
+    public boolean isHasWon() {
+        return hasWon;
+    }
 }

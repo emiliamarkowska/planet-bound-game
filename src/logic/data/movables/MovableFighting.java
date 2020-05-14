@@ -8,8 +8,8 @@ public class MovableFighting extends Movable {
     protected int health;
     protected boolean isDead;
 
-    protected MovableFighting(Point position, int health) {
-        super(position);
+    protected MovableFighting(Point position, int health, Logs logs) {
+        super(position, logs);
 
         this.health = health;
         isDead = false;
@@ -20,9 +20,9 @@ public class MovableFighting extends Movable {
     protected void decreaseHealth() {
         if(isDead) return;
         health--;
-        Logs.putLog("Health decreased to " + health);
+        logs.putLog("Health decreased to " + health);
         if (health == 0) {
-            Logs.putLog("Object is dead");
+            logs.putLog("Object is dead");
             isDead = true;
         }
     }

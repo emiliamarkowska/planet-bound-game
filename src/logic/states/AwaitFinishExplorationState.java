@@ -3,6 +3,7 @@ package logic.states;
 import logic.ExplorationPhase;
 import logic.PlanetBoundData;
 import logic.Randomizer;
+import logic.data.exceptions.NotAllowedMoveException;
 
 public class AwaitFinishExplorationState extends StateAdapter {
 
@@ -13,11 +14,12 @@ public class AwaitFinishExplorationState extends StateAdapter {
         super(planetBoundData);
         this.prevState = prevState;
 
-        explorationPhase = new ExplorationPhase(getPlanetBoundData().getShip().getDrone(), getPlanetBoundData().getPlanet());
+        explorationPhase = new ExplorationPhase(getPlanetBoundData().getShip().getDrone(), getPlanetBoundData().getPlanet(), getPlanetBoundData().getLogs());
     }
 
     @Override
-    public IState goUp() {
+    public IState goUp() throws NotAllowedMoveException {
+        explorationPhase.goUp();
         if (isBack()) {
             gatherResource();
             return prevState;
@@ -26,7 +28,8 @@ public class AwaitFinishExplorationState extends StateAdapter {
     }
 
     @Override
-    public IState goDown() {
+    public IState goDown() throws NotAllowedMoveException {
+        explorationPhase.goDown();
         if (isBack()) {
             gatherResource();
             return prevState;
@@ -35,7 +38,8 @@ public class AwaitFinishExplorationState extends StateAdapter {
     }
 
     @Override
-    public IState goLeft() {
+    public IState goLeft() throws NotAllowedMoveException {
+        explorationPhase.goLeft();
         if (isBack()) {
             gatherResource();
             return prevState;
@@ -44,7 +48,8 @@ public class AwaitFinishExplorationState extends StateAdapter {
     }
 
     @Override
-    public IState goRight() {
+    public IState goRight() throws NotAllowedMoveException {
+        explorationPhase.goRight();
         if (isBack()) {
             gatherResource();
             return prevState;

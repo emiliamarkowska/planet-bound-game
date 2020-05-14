@@ -14,11 +14,13 @@ public class Planet {
     ArrayList<ResourceType> resourcesOnPlanet;
     boolean hasSpaceStation;
     ResourceType minedResource;
+    private Logs logs;
 
-    public Planet(PlanetsResourcesList planetInfo, boolean hasSpaceStation){
+    public Planet(PlanetsResourcesList planetInfo, boolean hasSpaceStation, Logs logs){
         this.planetInfo = planetInfo;
         this.resourcesOnPlanet = new ArrayList<>(Arrays.asList(planetInfo.getValue()));
         this.hasSpaceStation = hasSpaceStation;
+        this.logs = logs;
     }
 
     public PlanetsResourcesList getPlanetInfo() {
@@ -33,7 +35,7 @@ public class Planet {
         for (ResourceType r : resourcesOnPlanet) {
             if(r == resourceType){
                 resourcesOnPlanet.remove(r);
-                Logs.putLog(resourceType + " resource deleted from the planet");
+                logs.putLog(resourceType + " resource deleted from the planet");
             }
 
         }
@@ -46,13 +48,13 @@ public class Planet {
     public ResourceType getResourceToBeMined() {
         int randomIndex = Randomizer.randomInt(0, resourcesOnPlanet.size() - 1);
         minedResource = resourcesOnPlanet.get(randomIndex);
-        Logs.putLog(minedResource + "resource is to be mined");
+        logs.putLog(minedResource + "resource is to be mined");
         return minedResource;
     }
 
     public void deleteMinedResource() {
         resourcesOnPlanet.remove(minedResource);
-        Logs.putLog(minedResource + " resource is mined and is deleted from available resources");
+        logs.putLog(minedResource + " resource is mined and is deleted from available resources");
     }
 
     public boolean hasResources(){

@@ -5,18 +5,19 @@ import logic.data.exceptions.NotEnoughFuelException;
 
 public class FuelSystem extends System {
     private int fuel;
+    private Logs logs;
 
-    public FuelSystem(boolean isMining) {
+    public FuelSystem(boolean isMining, Logs logs) {
         super(isMining);
         if(isMining) this.maxAmount =45;
         else this.maxAmount = 27;
         this.fuel = this.maxAmount;
+        this.logs = logs;
     }
 
     public void subtractFuel(int amount) throws NotEnoughFuelException {
         if (fuel - amount <= 0) {
             String errorMessage = "Fuel can't be spend - not enough fuel";
-            Logs.putLog(errorMessage);
             throw new NotEnoughFuelException(errorMessage);
         }
         fuel -= amount;
@@ -27,11 +28,11 @@ public class FuelSystem extends System {
         if(this.fuel + amount > this.maxAmount) {
             amountAdded = maxAmount - this.fuel;
             this.fuel = maxAmount;
-            Logs.putLog(amountAdded + "fuel cells added");
+            logs.putLog(amountAdded + "fuel cells added");
             return;
         }
         this.fuel += amount;
-        Logs.putLog(amountAdded + "fuel cells added");
+        logs.putLog(amountAdded + "fuel cells added");
     }
 
     public int getFuel() {

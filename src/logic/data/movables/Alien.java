@@ -10,8 +10,8 @@ public class Alien extends MovableFighting {
 
     private AlienTypes alienType;
 
-    public Alien(Point position, AlienTypes alienType) {
-        super(position, 1);
+    public Alien(Point position, AlienTypes alienType, Logs logs) {
+        super(position, 1, logs);
 
         this.alienType = alienType;
     }
@@ -20,10 +20,10 @@ public class Alien extends MovableFighting {
     public void fight(MovableFighting mov) {
         Drone drone = (Drone)mov;
         if (Randomizer.randomSuccessFraction(alienType.getAttackChance(), 6)) {
-            Logs.putLog("Alien shot - drone suffered");
+            logs.putLog("Alien shot - drone suffered");
             drone.decreaseHealth();
         }
-        else Logs.putLog("Alien shot - missed");
+        else logs.putLog("Alien shot - missed");
     }
 
     public AlienTypes getAlienType() {
@@ -35,15 +35,15 @@ public class Alien extends MovableFighting {
     }
 
     public void chaseDrone(Drone drone) throws NotAllowedMoveException {
-        Logs.putLog("Alien's move: ");
+        logs.putLog("Alien's move: ");
         Vector vectorTowardsAlien = new Vector(position, drone.position);
         if (vectorTowardsAlien.isLengthXLonger()) {
-            if (vectorTowardsAlien.getLengthX() < 0) moveLeft();
-            else moveRight();
+            if (vectorTowardsAlien.getLengthX() > 0) moveRight();
+            else moveLeft();
         }
         else {
-            if (vectorTowardsAlien.getLengthY() < 0) moveDown();
-            else moveUp();
+            if (vectorTowardsAlien.getLengthY() < 0) moveUp();
+            else moveDown();
         }
     }
 

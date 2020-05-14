@@ -5,7 +5,8 @@ import logic.data.shipmodels.systems.WeaponSystem;
 
 public class WeaponOfficer extends Officer {
     private WeaponSystem weaponSystem;
-    public WeaponOfficer(WeaponSystem weaponSystem){
+    public WeaponOfficer(WeaponSystem weaponSystem, Logs logs){
+        super(logs);
         this.positionInShip = 4;
         this.weaponSystem = weaponSystem;
     }
@@ -13,12 +14,12 @@ public class WeaponOfficer extends Officer {
     @Override
     public void disableSystem(){
         this.weaponSystem.setEnabled(false);
-        Logs.putLog("Weapon system disabled");
+        logs.putLog("Weapon system disabled");
     }
 
     @Override
     public void enableSystem(){
         this.weaponSystem.setEnabled(true);
-        Logs.putLog("Weapon system enabled");
+        logs.putLog("Weapon system enabled");
     }
 }
