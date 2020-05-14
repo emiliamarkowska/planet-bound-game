@@ -1,5 +1,6 @@
 package logic;
 
+import logic.data.exceptions.CrewFullException;
 import logic.data.exceptions.NotEnoughResourcesException;
 import logic.data.exceptions.SystemDisabledException;
 import logic.data.exceptions.UpgradeMaxException;
@@ -58,20 +59,30 @@ public class PlanetBound {
         try{
             this.setState(this.state.upgradeCargo());
         } catch (UpgradeMaxException e) {
-            e.printStackTrace();
+            Logs.putLog(e.getMessage());
         } catch (NotEnoughResourcesException e) {
-            e.printStackTrace();
+            Logs.putLog(e.getMessage());
         } catch (SystemDisabledException e) {
-            e.printStackTrace();
+            Logs.putLog(e.getMessage());
         }
     }
 
-    public void exchangeResource(ResourceType from, ResourceType to) {
-        this.setState(this.state.exchangeResource(from, to));
+    public void exchangeResource(ResourceType from, ResourceType to) throws NotEnoughResourcesException {
+        try{
+            this.setState(this.state.exchangeResource(from, to));
+        } catch (NotEnoughResourcesException e) {
+            Logs.putLog(e.getMessage());
+        }
     }
 
-    public void addCrewMember() {
-        this.setState(this.state.addCrewMember());
+    public void addCrewMember() throws NotEnoughResourcesException, CrewFullException {
+        try{
+            this.setState(this.state.addCrewMember());
+        } catch (NotEnoughResourcesException e) {
+            Logs.putLog(e.getMessage());
+        } catch (CrewFullException e) {
+            Logs.putLog(e.getMessage());
+        }
     }
 
     public void upgradeWeapon() {

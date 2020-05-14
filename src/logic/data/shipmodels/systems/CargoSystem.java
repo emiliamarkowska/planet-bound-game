@@ -85,7 +85,6 @@ public class CargoSystem extends System {
         if(!canBeResourcePaid(ResourceType.RED, amount) || !canBeResourcePaid(ResourceType.BLUE, amount)
                 || !canBeResourcePaid(ResourceType.GREEN, amount) || !canBeResourcePaid(ResourceType.BLACK  , amount)) {
             String errorMessage = "Can't pay all resources, because some is missing";
-            Logs.putLog(errorMessage);
             throw new NotEnoughResourcesException(errorMessage);
         }
         payResource(amount, ResourceType.RED);
