@@ -26,7 +26,7 @@ public class StateAdapter implements IState {
     }
 
     @Override
-    public IState explorePlanet() {
+    public IState explorePlanet() throws OfficerUnavailableException {
         return this;
     }
 
@@ -37,12 +37,12 @@ public class StateAdapter implements IState {
 
     //AVAILABLE FROM AwaitBuyState
     @Override
-    public IState upgradeCargo() throws SystemDisabledException, UpgradeMaxException, NotEnoughResourcesException {
+    public IState upgradeCargo() throws SystemDisabledException, UpgradeMaxException, NotEnoughResourcesException, OfficerUnavailableException {
         return this;
     }
 
     @Override
-    public IState exchangeResource(ResourceType from, ResourceType to) throws NotEnoughResourcesException {
+    public IState exchangeResource(ResourceType from, ResourceType to) throws NotEnoughResourcesException, SystemDisabledException, OfficerUnavailableException {
         return this;
     }
 
@@ -52,22 +52,22 @@ public class StateAdapter implements IState {
     }
 
     @Override
-    public IState upgradeWeapon() throws NotEnoughResourcesException, UpgradeMaxException {
+    public IState upgradeWeapon() throws NotEnoughResourcesException, UpgradeMaxException, OfficerUnavailableException {
         return this;
     }
 
     @Override
-    public IState repairShip() throws NotEnoughResourcesException {
+    public IState repairShip() throws NotEnoughResourcesException, OfficerUnavailableException {
         return this;
     }
 
     @Override
-    public IState repairDrone() throws NotEnoughResourcesException {
+    public IState repairDrone() throws NotEnoughResourcesException, OfficerUnavailableException {
         return this;
     }
 
     @Override
-    public IState convertToShipResources(UsableResourceType type, int amount) throws NotEnoughResourcesException {
+    public IState convertToShipResources(UsableResourceType type, int amount) throws NotEnoughResourcesException, SystemDisabledException, OfficerUnavailableException {
         return this;
     }
 

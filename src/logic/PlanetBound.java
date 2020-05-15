@@ -44,7 +44,11 @@ public class PlanetBound {
     }
 
     public void explorePlanet() {
-        this.setState(this.state.explorePlanet());
+        try {
+            this.setState(this.state.explorePlanet());
+        } catch (OfficerUnavailableException e) {
+            logs.putLog(e.getMessage());
+        }
     }
 
     public void lookForAnotherPlanet() {
@@ -62,6 +66,8 @@ public class PlanetBound {
             logs.putLog(e.getMessage());
         } catch (SystemDisabledException e) {
             logs.putLog(e.getMessage());
+        } catch (OfficerUnavailableException e) {
+            logs.putLog(e.getMessage());
         }
     }
 
@@ -69,6 +75,10 @@ public class PlanetBound {
         try{
             this.setState(this.state.exchangeResource(from, to));
         } catch (NotEnoughResourcesException e) {
+            logs.putLog(e.getMessage());
+        } catch (SystemDisabledException e) {
+            logs.putLog(e.getMessage());
+        } catch (OfficerUnavailableException e) {
             logs.putLog(e.getMessage());
         }
     }
@@ -90,6 +100,8 @@ public class PlanetBound {
             logs.putLog(e.getMessage());
         } catch (UpgradeMaxException e) {
             logs.putLog(e.getMessage());
+        } catch (OfficerUnavailableException e) {
+            logs.putLog(e.getMessage());
         }
 
 
@@ -100,6 +112,8 @@ public class PlanetBound {
             this.setState(this.state.repairShip());
         } catch (NotEnoughResourcesException e) {
             logs.putLog(e.getMessage());
+        } catch (OfficerUnavailableException e) {
+            logs.putLog(e.getMessage());
         }
     }
 
@@ -107,6 +121,8 @@ public class PlanetBound {
         try {
             this.setState(this.state.repairDrone());
         } catch (NotEnoughResourcesException e) {
+            logs.putLog(e.getMessage());
+        } catch (OfficerUnavailableException e) {
             logs.putLog(e.getMessage());
         }
 
@@ -116,6 +132,10 @@ public class PlanetBound {
         try {
             this.setState(this.state.convertToShipResources(type, amount));
         } catch (NotEnoughResourcesException e) {
+            logs.putLog(e.getMessage());
+        } catch (SystemDisabledException e) {
+            logs.putLog(e.getMessage());
+        } catch (OfficerUnavailableException e) {
             logs.putLog(e.getMessage());
         }
     }

@@ -5,10 +5,7 @@ import logic.Randomizer;
 import logic.PlanetBoundData;
 import logic.data.events.IEvent;
 import logic.data.events.WormholeHelper;
-import logic.data.exceptions.CrewFullException;
-import logic.data.exceptions.NotEnoughFuelException;
-import logic.data.exceptions.NotEnoughResourcesException;
-import logic.data.exceptions.NotEnoughShieldException;
+import logic.data.exceptions.*;
 import logic.data.factories.EventFactory;
 
 import java.util.Locale;
@@ -26,7 +23,9 @@ public class AwaitMoveState extends StateAdapter {
     }
 
     @Override
-    public IState explorePlanet() {
+    public IState explorePlanet() throws OfficerUnavailableException {
+        String msg = "You cannot explore a planet without Exploraion Officer";
+        if(!getPlanetBoundData().getShip().isOfficerAvailable("ExplorationOfficer")) throw new OfficerUnavailableException(msg);
         if(!getPlanetBoundData().getPlanet().hasResources()) return this;
         return new AwaitFinishExplorationState(getPlanetBoundData(), this);
     }

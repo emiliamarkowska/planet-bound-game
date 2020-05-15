@@ -1,10 +1,7 @@
 package logic.states;
 
 import logic.PlanetBoundData;
-import logic.data.exceptions.CrewFullException;
-import logic.data.exceptions.NotEnoughResourcesException;
-import logic.data.exceptions.SystemDisabledException;
-import logic.data.exceptions.UpgradeMaxException;
+import logic.data.exceptions.*;
 import logic.data.movables.Resource;
 import logic.data.planetmodels.SpaceStation;
 import logic.data.shipmodels.ResourceType;
@@ -22,13 +19,13 @@ public class AwaitBuyState extends StateAdapter {
     }
 
     @Override
-    public IState upgradeCargo() throws SystemDisabledException, UpgradeMaxException, NotEnoughResourcesException {
+    public IState upgradeCargo() throws SystemDisabledException, UpgradeMaxException, NotEnoughResourcesException, OfficerUnavailableException {
         spaceStation.upgradeCargo();
         return this;
     }
 
     @Override
-    public IState exchangeResource(ResourceType from, ResourceType to) throws NotEnoughResourcesException {
+    public IState exchangeResource(ResourceType from, ResourceType to) throws NotEnoughResourcesException, SystemDisabledException, OfficerUnavailableException {
         spaceStation.convertResource(from, to);
         return this;
     }
@@ -40,25 +37,25 @@ public class AwaitBuyState extends StateAdapter {
     }
 
     @Override
-    public IState upgradeWeapon() throws NotEnoughResourcesException, UpgradeMaxException {
+    public IState upgradeWeapon() throws NotEnoughResourcesException, UpgradeMaxException, OfficerUnavailableException {
         spaceStation.upgradeWeaponSystem();
         return this;
     }
 
     @Override
-    public IState repairShip() throws NotEnoughResourcesException {
+    public IState repairShip() throws NotEnoughResourcesException, OfficerUnavailableException {
         spaceStation.fillShield();
         return this;
     }
 
     @Override
-    public IState repairDrone() throws NotEnoughResourcesException {
+    public IState repairDrone() throws NotEnoughResourcesException, OfficerUnavailableException {
         spaceStation.buyNewDrone();
         return this;
     }
 
     @Override
-    public IState convertToShipResources(UsableResourceType type, int amount) throws NotEnoughResourcesException {
+    public IState convertToShipResources(UsableResourceType type, int amount) throws NotEnoughResourcesException, SystemDisabledException, OfficerUnavailableException {
         spaceStation.convertToShipResources(type, amount);
         return this;
     }

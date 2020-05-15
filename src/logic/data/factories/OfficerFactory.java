@@ -12,7 +12,7 @@ public class OfficerFactory {
         switch (position){
             case 1:
                 logs.putLog("Navigation Officer added");
-                return new NaviagtionOfficer(logs);
+                return new NavigationOfficer(logs);
             case 2:
                 logs.putLog("Exploration Officer added");
                 return new ExplorationOfficer(logs);

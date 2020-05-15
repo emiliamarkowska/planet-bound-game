@@ -33,7 +33,7 @@ public class Ship {
 
         this.officers = new ArrayList<>();
         officers.add(new Captain(logs));
-        officers.add(new NaviagtionOfficer(logs));
+        officers.add(new NavigationOfficer(logs));
         officers.add(new ExplorationOfficer(logs));
         officers.add(new ShieldOfficer(this.shieldSystem, logs));
         officers.add(new WeaponOfficer(this.weaponSystem, logs));
@@ -91,6 +91,7 @@ public class Ship {
 
     public boolean isOfficerAvailable(String officer) {
         for(Officer o : officers){
+            logs.putLog(o.getClass().getSimpleName());
             if(o.getClass().getSimpleName().equals(officer)) return true;
         }
         return false;
